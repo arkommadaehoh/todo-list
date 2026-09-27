@@ -1,0 +1,185 @@
+$primary:      #4f46e5;
+$primary-dark: #3730a3;
+$text:         #111827;
+$text-muted:   #6b7280;
+$border:       #e5e7eb;
+$surface:      #f9fafb;
+$white:        #ffffff;
+$radius:       8px;
+
+/* ── Wrapper ────────────────────────────────────────────────── */
+.dp-wrap {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+}
+
+/* ── Trigger ────────────────────────────────────────────────── */
+.dp-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1.5px solid $border;
+  border-radius: 6px;
+  background: $white;
+  padding: 0.52rem 0.75rem;
+  font-size: 0.88rem;
+  font-family: inherit;
+  cursor: pointer;
+  color: $text-muted;
+  white-space: nowrap;
+  transition: border-color 0.15s, box-shadow 0.15s, color 0.15s;
+  min-width: 148px;
+
+  &:hover { border-color: $primary; color: $text; }
+
+  &--active {
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba(79,70,229,0.12);
+    color: $text;
+  }
+
+  &__icon  { font-size: 0.9rem; }
+  &__label { flex: 1; text-align: left; }
+  &__caret { font-size: 0.65rem; color: $text-muted; margin-left: 0.15rem; }
+}
+
+/* ── Popup ──────────────────────────────────────────────────── */
+.dp-popup {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 1000;
+  background: $white;
+  border: 1.5px solid $border;
+  border-radius: $radius;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  width: 256px;
+  padding: 0.75rem;
+  animation: dp-in 0.12s ease;
+}
+
+@keyframes dp-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Header ─────────────────────────────────────────────────── */
+.dp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+}
+
+.dp-nav {
+  background: none;
+  border: 1.5px solid $border;
+  border-radius: 5px;
+  width: 28px;
+  height: 28px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $text-muted;
+  transition: background 0.12s, color 0.12s;
+
+  &:hover { background: $surface; color: $text; }
+}
+
+.dp-month-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: $text;
+}
+
+/* ── Weekdays ────────────────────────────────────────────────── */
+.dp-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 0.3rem;
+
+  .dp-wd {
+    text-align: center;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: $text-muted;
+    padding: 0.2rem 0;
+  }
+}
+
+/* ── Grid ────────────────────────────────────────────────────── */
+.dp-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.dp-day {
+  background: none;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  aspect-ratio: 1;
+  font-size: 0.8rem;
+  font-family: inherit;
+  cursor: pointer;
+  color: $text;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.1s, color 0.1s;
+
+  &:hover:not(.dp-day--selected) { background: #eef2ff; color: $primary; }
+
+  &--other    { color: #c4c9d4; }
+
+  &--today:not(.dp-day--selected) {
+    font-weight: 700;
+    color: $primary;
+    background: #eef2ff;
+  }
+
+  &--selected {
+    background: $primary;
+    color: $white;
+    font-weight: 700;
+
+    &:hover { background: $primary-dark; }
+  }
+}
+
+/* ── Footer ──────────────────────────────────────────────────── */
+.dp-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.6rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid $border;
+}
+
+.dp-clear,
+.dp-today {
+  background: none;
+  border: none;
+  font-size: 0.78rem;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  transition: background 0.12s;
+}
+
+.dp-clear {
+  color: $text-muted;
+  &:hover { background: #fee2e2; color: #dc2626; }
+}
+
+.dp-today {
+  color: $primary;
+  &:hover { background: #eef2ff; }
+}

@@ -1,0 +1,47 @@
+<div class="dp-wrap">
+
+  <!-- ── Trigger button ───────────────────────────────────────── -->
+  <button type="button" class="dp-trigger" (click)="toggleOpen()" [class.dp-trigger--active]="open()">
+    <span class="dp-trigger__icon">📅</span>
+    <span class="dp-trigger__label">{{ displayValue() || 'dd/mm/yyyy' }}</span>
+    <span class="dp-trigger__caret">▾</span>
+  </button>
+
+  <!-- ── Popup ────────────────────────────────────────────────── -->
+  <div class="dp-popup" *ngIf="open()">
+
+    <!-- Header -->
+    <div class="dp-header">
+      <button type="button" class="dp-nav" (click)="prevMonth()">‹</button>
+      <span class="dp-month-label">{{ monthLabel() }}</span>
+      <button type="button" class="dp-nav" (click)="nextMonth()">›</button>
+    </div>
+
+    <!-- Weekday row -->
+    <div class="dp-weekdays">
+      <div class="dp-wd" *ngFor="let wd of WEEKDAYS">{{ wd }}</div>
+    </div>
+
+    <!-- Day grid -->
+    <div class="dp-grid">
+      <button
+        type="button"
+        class="dp-day"
+        *ngFor="let day of grid()"
+        [class.dp-day--other]="!day.currentMonth"
+        [class.dp-day--today]="day.isToday"
+        [class.dp-day--selected]="day.selected"
+        (click)="selectDay(day)"
+      >
+        {{ day.date.getDate() }}
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <div class="dp-footer">
+      <button type="button" class="dp-clear" (click)="clearDate()">Clear</button>
+      <button type="button" class="dp-today" (click)="selectToday()">Today</button>
+    </div>
+
+  </div>
+</div>

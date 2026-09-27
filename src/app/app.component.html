@@ -1,0 +1,175 @@
+<div class="app-wrapper">
+  <div class="card" [class.card--wide]="activeTab === 'calendar'">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="app-header__top">
+        <div>
+          <h1 class="app-title">
+            <span class="icon">✅</span> Todo List
+          </h1>
+          <p class="app-subtitle">
+            {{ todoService.activeTodos().length }} task(s) remaining
+          </p>
+        </div>
+
+        <!-- Tab switcher -->
+        <div class="main-tabs">
+          <button
+            class="main-tab"
+            [class.main-tab--active]="activeTab === 'todos'"
+            (click)="activeTab = 'todos'"
+          >
+            📋 Tasks
+          </button>
+          <button
+            class="main-tab"
+            [class.main-tab--active]="activeTab === 'calendar'"
+            (click)="activeTab = 'calendar'"
+          >
+            📅 Calendar
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ══ CALENDAR VIEW ══ -->
+    <app-calendar *ngIf="activeTab === 'calendar'"></app-calendar>
+
+    <!-- ══ TODOS VIEW ══ -->
+    <ng-container *ngIf="activeTab === 'todos'">
+
+    <!-- Add Form -->
+    <form class="add-form" (ngSubmit)="addTodo()">
+      <div class="add-form__inputs">
+        <input
+          class="input input--title"
+          type="text"
+          placeholder="What needs to be done?"
+          [(ngModel)]="newTitle"
+          name="newTitle"
+          autofocus
+        />
+        <app-date-picker
+          [value]="newDueDate"
+          (valueChange)="newDueDate = $event"
+        ></app-date-picker>
+      </div>
+      <button class="btn btn--primary" type="submit" [disabled]="!newTitle.trim()">
+        + Add Task
+      </button>
+    </form>
+
+    <!-- Filter Tabs -->
+    <div class="filter-tabs">
+      <button class="tab" [class.tab--active]="filter === 'all'"       (click)="filter = 'all'">
+        All <span class="badge">{{ todoService.todos().length }}</span>
+      </button>
+      <button class="tab" [class.tab--active]="filter === 'active'"    (click)="filter = 'active'">
+        Active <span class="badge">{{ todoService.activeTodos().length }}</span>
+      </button>
+      <button class="tab" [class.tab--active]="filter === 'completed'" (click)="filter = 'completed'">
+        Completed <span class="badge">{{ todoService.completedTodos().length }}</span>
+      </button>
+    </div>
+
+    <!-- Todo List -->
+    <ul class="todo-list" *ngIf="filteredTodos.length > 0; else emptyState">
+      <li
+        class="todo-item"
+        *ngFor="let todo of filteredTodos; trackBy: trackById"
+        [class.todo-item--completed]="todo.completed"
+        [class.todo-item--editing]="editingId() === todo.id"
+      >
+
+        <!-- VIEW MODE -->
+        <ng-container *ngIf="editingId() !== todo.id">
+          <label class="todo-check" [title]="todo.completed ? 'Mark incomplete' : 'Mark complete'">
+            <input
+              type="checkbox"
+              [checked]="todo.completed"
+              (change)="toggleComplete(todo.id)"
+            />
+            <span class="checkmark"></span>
+          </label>
+
+          <div class="todo-body">
+            <span class="todo-title">{{ todo.title }}</span>
+            <span
+              *ngIf="todo.dueDate"
+              class="todo-due"
+              [class.todo-due--overdue]="isOverdue(todo.dueDate) && !todo.completed"
+              [class.todo-due--today]="isDueToday(todo.dueDate) && !todo.completed"
+            >
+              📅 {{ formatDate(todo.dueDate) }}
+              <span *ngIf="isOverdue(todo.dueDate) && !todo.completed" class="due-label due-label--overdue">Overdue</span>
+              <span *ngIf="isDueToday(todo.dueDate) && !todo.completed" class="due-label due-label--today">Today</span>
+            </span>
+          </div>
+
+          <div class="todo-actions">
+            <button class="btn-icon btn-icon--edit" (click)="startEdit(todo)" title="Edit">
+              ✏️
+            </button>
+            <button class="btn-icon btn-icon--delete" (click)="removeTodo(todo.id)" title="Delete">
+              🗑️
+            </button>
+          </div>
+        </ng-container>
+
+        <!-- EDIT MODE -->
+        <ng-container *ngIf="editingId() === todo.id">
+          <form class="edit-form" (ngSubmit)="saveEdit(todo.id)">
+            <div class="edit-form__inputs">
+              <input
+                class="input input--title"
+                type="text"
+                [(ngModel)]="editTitle"
+                name="editTitle"
+                placeholder="Task title"
+                required
+                autofocus
+              />
+              <app-date-picker
+                [value]="editDueDate"
+                (valueChange)="editDueDate = $event"
+              ></app-date-picker>
+            </div>
+            <div class="edit-form__actions">
+              <button class="btn btn--primary btn--sm" type="submit" [disabled]="!editTitle.trim()">
+                Save
+              </button>
+              <button class="btn btn--ghost btn--sm" type="button" (click)="cancelEdit()">
+                Cancel
+              </button>
+            </div>
+          </form>
+        </ng-container>
+
+      </li>
+    </ul>
+
+    <!-- Empty State -->
+    <ng-template #emptyState>
+      <div class="empty-state">
+        <span class="empty-state__icon">🎉</span>
+        <p>{{ filter === 'completed' ? 'No completed tasks yet.' : filter === 'active' ? 'All tasks done!' : 'No tasks yet. Add one above!' }}</p>
+      </div>
+    </ng-template>
+
+    <!-- Footer -->
+    <footer class="list-footer" *ngIf="todoService.todos().length > 0">
+      <span class="footer-count">{{ todoService.activeTodos().length }} left</span>
+      <button
+        class="btn btn--ghost btn--sm"
+        *ngIf="todoService.completedTodos().length > 0"
+        (click)="clearCompleted()"
+      >
+        Clear completed ({{ todoService.completedTodos().length }})
+      </button>
+    </footer>
+
+    </ng-container>
+    <!-- end todos view -->
+
+  </div>
+</div>

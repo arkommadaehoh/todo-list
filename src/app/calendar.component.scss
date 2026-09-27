@@ -1,0 +1,425 @@
+/* ─── Shared vars (inherited from app shell) ────────────────── */
+$primary:      #4f46e5;
+$primary-dark: #3730a3;
+$danger:       #dc2626;
+$success:      #16a34a;
+$text:         #111827;
+$text-muted:   #6b7280;
+$border:       #e5e7eb;
+$surface:      #f9fafb;
+$white:        #ffffff;
+$radius:       8px;
+$radius-sm:    6px;
+
+/* ─── Shell ─────────────────────────────────────────────────── */
+.cal-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* ─── Top bar ───────────────────────────────────────────────── */
+.cal-topbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1.25rem;
+  border-bottom: 1px solid $border;
+  flex-wrap: wrap;
+
+  @media (max-width: 480px) {
+    gap: 0.6rem;
+    padding: 0.75rem 1rem;
+  }
+}
+
+/* ─── View toggle ───────────────────────────────────────────── */
+.view-toggle {
+  display: flex;
+  border: 1.5px solid $border;
+  border-radius: $radius-sm;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.toggle-btn {
+  background: $white;
+  border: none;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  color: $text-muted;
+  transition: background 0.14s, color 0.14s;
+
+  &:first-child { border-right: 1.5px solid $border; }
+
+  &--active {
+    background: $primary;
+    color: $white;
+  }
+
+  &:hover:not(.toggle-btn--active) { background: $surface; }
+}
+
+/* ─── Navigation ────────────────────────────────────────────── */
+.cal-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex: 1;
+  justify-content: center;
+  min-width: 0;
+}
+
+.nav-btn {
+  background: none;
+  border: 1.5px solid $border;
+  border-radius: $radius-sm;
+  width: 30px;
+  height: 30px;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $text-muted;
+  transition: background 0.12s, color 0.12s;
+  flex-shrink: 0;
+
+  &:hover { background: $surface; color: $text; }
+}
+
+.nav-label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: $text;
+  white-space: nowrap;
+  min-width: 0;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.today-btn {
+  background: none;
+  border: 1.5px solid $border;
+  border-radius: $radius-sm;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  color: $primary;
+  flex-shrink: 0;
+  transition: background 0.12s;
+
+  &:hover { background: #ede9fe; }
+}
+
+/* ─── Month view ────────────────────────────────────────────── */
+.cal-month {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.cal-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border-bottom: 1px solid $border;
+
+  .wd {
+    text-align: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: $text-muted;
+    padding: 0.5rem 0;
+  }
+}
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  flex: 1;
+  overflow: hidden;
+}
+
+.cal-cell {
+  border-right: 1px solid $border;
+  border-bottom: 1px solid $border;
+  padding: 0.35rem 0.4rem;
+  cursor: pointer;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  transition: background 0.1s;
+  position: relative;
+
+  &:nth-child(7n) { border-right: none; }
+  &:nth-last-child(-n+7) { border-bottom: none; }
+
+  &:hover { background: #f0f4ff; }
+
+  &--other .cell-date { color: #c4c9d4; }
+
+  &--today {
+    background: #eef2ff;
+    .cell-date {
+      background: $primary;
+      color: $white;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+.cell-date {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: $text;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+/* Pill previews */
+.cell-pills {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.cell-pill {
+  font-size: 0.68rem;
+  background: #dbeafe;
+  color: #1d4ed8;
+  border-radius: 3px;
+  padding: 1px 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
+
+  &--done {
+    background: #dcfce7;
+    color: #166534;
+    text-decoration: line-through;
+    opacity: 0.7;
+  }
+
+  &--more {
+    background: $surface;
+    color: $text-muted;
+    font-style: italic;
+  }
+}
+
+/* Dot row (shown at smaller sizes via responsive) */
+.cell-dots {
+  display: none;
+  gap: 3px;
+  align-items: center;
+  margin-top: auto;
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: $primary;
+    flex-shrink: 0;
+
+    &--done { background: $success; }
+  }
+
+  .dot-more {
+    font-size: 0.65rem;
+    color: $text-muted;
+    font-weight: 700;
+  }
+}
+
+/* On narrow screens, show dots instead of pills */
+@media (max-width: 560px) {
+  .cell-pills { display: none; }
+  .cell-dots  { display: flex; }
+  .cal-cell   { min-height: 52px; }
+}
+
+/* ─── Day view ──────────────────────────────────────────────── */
+.cal-day {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* Quick-add */
+.day-quickadd {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid $border;
+  align-items: center;
+
+  &__input {
+    flex: 1;
+    border: 1.5px solid $border;
+    border-radius: $radius-sm;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+    font-family: inherit;
+    outline: none;
+
+    &:focus {
+      border-color: $primary;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+    }
+  }
+}
+
+/* Task list */
+.day-tasks {
+  display: flex;
+  flex-direction: column;
+}
+
+.day-task {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid $border;
+  transition: background 0.1s;
+
+  &:last-child { border-bottom: none; }
+  &:hover { background: $surface; }
+
+  &--done .day-task__title {
+    text-decoration: line-through;
+    color: $text-muted;
+  }
+}
+
+.day-task__title {
+  flex: 1;
+  font-size: 0.93rem;
+  font-weight: 500;
+  color: $text;
+  word-break: break-word;
+}
+
+/* ─── Empty day ─────────────────────────────────────────────── */
+.day-empty {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: $text-muted;
+
+  .day-empty__icon {
+    display: block;
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+  p { font-size: 0.95rem; }
+}
+
+/* ─── Reused from app: checkbox ─────────────────────────────── */
+.todo-check {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid $border;
+    border-radius: 50%;
+    background: $white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, border-color 0.15s;
+
+    &::after {
+      content: '✓';
+      color: $white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+  }
+
+  input:checked ~ .checkmark {
+    background: $success;
+    border-color: $success;
+    &::after { opacity: 1; }
+  }
+
+  &:hover .checkmark { border-color: $primary; }
+}
+
+/* ─── Reused from app: icon button ─────────────────────────── */
+.btn-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem 0.4rem;
+  border-radius: $radius-sm;
+  font-size: 1rem;
+  line-height: 1;
+  opacity: 0.5;
+  transition: background 0.12s, opacity 0.12s;
+
+  &:hover { opacity: 1; }
+  &--delete:hover { background: #fee2e2; }
+}
+
+/* ─── Reused button ─────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 1.1rem;
+  border-radius: $radius-sm;
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  white-space: nowrap;
+  transition: background 0.15s;
+
+  &--primary {
+    background: $primary;
+    color: $white;
+    &:hover:not(:disabled) { background: $primary-dark; }
+    &:disabled { opacity: 0.45; cursor: not-allowed; }
+  }
+
+  &--sm { padding: 0.4rem 0.85rem; font-size: 0.835rem; }
+}

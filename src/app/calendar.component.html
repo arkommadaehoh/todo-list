@@ -1,0 +1,125 @@
+<div class="cal-shell">
+
+  <!-- ═══ Top Bar ═══════════════════════════════════════════════ -->
+  <div class="cal-topbar">
+
+    <!-- View toggle -->
+    <div class="view-toggle">
+      <button
+        class="toggle-btn"
+        [class.toggle-btn--active]="calView() === 'month'"
+        (click)="calView.set('month')"
+      >
+        Month
+      </button>
+      <button
+        class="toggle-btn"
+        [class.toggle-btn--active]="calView() === 'day'"
+        (click)="calView.set('day')"
+      >
+        Day
+      </button>
+    </div>
+
+    <!-- Navigator -->
+    <div class="cal-nav">
+      <button class="nav-btn" (click)="calView() === 'month' ? prevMonth() : prevDay()" title="Previous">‹</button>
+      <span class="nav-label">
+        {{ calView() === 'month' ? monthLabel() : dayLabel() }}
+      </span>
+      <button class="nav-btn" (click)="calView() === 'month' ? nextMonth() : nextDay()" title="Next">›</button>
+    </div>
+
+    <!-- Today shortcut -->
+    <button class="today-btn" (click)="goToday()">Today</button>
+  </div>
+
+  <!-- ═══ MONTH VIEW ════════════════════════════════════════════ -->
+  <div class="cal-month" *ngIf="calView() === 'month'">
+
+    <!-- Weekday headers -->
+    <div class="cal-weekdays">
+      <div class="wd" *ngFor="let wd of WEEKDAYS">{{ wd }}</div>
+    </div>
+
+    <!-- Grid cells -->
+    <div class="cal-grid">
+      <div
+        class="cal-cell"
+        *ngFor="let day of monthGrid(); trackBy: trackByDate"
+        [class.cal-cell--other]="!day.isCurrentMonth"
+        [class.cal-cell--today]="day.isToday"
+        [class.cal-cell--has-todos]="day.todos.length > 0"
+        (click)="selectDay(day)"
+        [title]="'View ' + day.dateStr"
+      >
+        <span class="cell-date">{{ day.date.getDate() }}</span>
+
+        <!-- Dot indicators (up to 3) -->
+        <div class="cell-dots" *ngIf="day.todos.length > 0">
+          <span
+            class="dot"
+            *ngFor="let t of day.todos.slice(0, 3)"
+            [class.dot--done]="t.completed"
+          ></span>
+          <span class="dot-more" *ngIf="day.todos.length > 3">+{{ day.todos.length - 3 }}</span>
+        </div>
+
+        <!-- Task pill previews (month) -->
+        <div class="cell-pills" *ngIf="day.todos.length > 0">
+          <div
+            class="cell-pill"
+            *ngFor="let t of day.todos.slice(0, 2)"
+            [class.cell-pill--done]="t.completed"
+            [title]="t.title"
+          >{{ t.title }}</div>
+          <div class="cell-pill cell-pill--more" *ngIf="day.todos.length > 2">
+            +{{ day.todos.length - 2 }} more
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ DAY VIEW ═════════════════════════════════════════════ -->
+  <div class="cal-day" *ngIf="calView() === 'day'">
+
+    <!-- Quick-add bar -->
+    <form class="day-quickadd" (ngSubmit)="quickAdd()">
+      <input
+        class="day-quickadd__input"
+        type="text"
+        placeholder="Add a task for this day…"
+        [(ngModel)]="quickTitle"
+        name="quickTitle"
+      />
+      <button class="btn btn--primary btn--sm" type="submit" [disabled]="!quickTitle.trim()">
+        + Add
+      </button>
+    </form>
+
+    <!-- Task list for the day -->
+    <div class="day-tasks" *ngIf="dayTodos().length > 0; else dayEmpty">
+      <div
+        class="day-task"
+        *ngFor="let todo of dayTodos(); trackBy: trackById"
+        [class.day-task--done]="todo.completed"
+      >
+        <label class="todo-check" [title]="todo.completed ? 'Mark incomplete' : 'Mark complete'">
+          <input type="checkbox" [checked]="todo.completed" (change)="toggleComplete(todo.id)" />
+          <span class="checkmark"></span>
+        </label>
+        <span class="day-task__title">{{ todo.title }}</span>
+        <button class="btn-icon btn-icon--delete" (click)="removeTodo(todo.id)" title="Remove">🗑️</button>
+      </div>
+    </div>
+
+    <ng-template #dayEmpty>
+      <div class="day-empty">
+        <span class="day-empty__icon">📭</span>
+        <p>No tasks scheduled for this day.</p>
+      </div>
+    </ng-template>
+  </div>
+
+</div>

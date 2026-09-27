@@ -1,0 +1,422 @@
+/* ─── Variables ─────────────────────────────────────────────── */
+$primary:      #4f46e5;
+$primary-dark: #3730a3;
+$danger:       #dc2626;
+$warning:      #d97706;
+$success:      #16a34a;
+$text:         #111827;
+$text-muted:   #6b7280;
+$border:       #e5e7eb;
+$surface:      #f9fafb;
+$white:        #ffffff;
+$radius:       10px;
+$radius-sm:    6px;
+$shadow:       0 4px 24px rgba(0, 0, 0, 0.08);
+
+/* ─── Global reset ──────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+  background: linear-gradient(135deg, #ede9fe 0%, #dbeafe 100%);
+  min-height: 100vh;
+  color: $text;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ─── Layout ────────────────────────────────────────────────── */
+.app-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 3rem 1rem 4rem;
+  min-height: 100vh;
+}
+
+.card {
+  background: $white;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  width: 100%;
+  max-width: 620px;
+  overflow: visible;
+  transition: max-width 0.25s ease;
+
+  &--wide { max-width: 900px; }
+}
+
+/* ─── Header ────────────────────────────────────────────────── */
+.app-header {
+  background: $primary;
+  padding: 1.25rem 1.5rem 1.1rem;
+  border-radius: $radius $radius 0 0;
+
+  &__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .app-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $white;
+    letter-spacing: -0.02em;
+
+    .icon { margin-right: 0.35rem; }
+  }
+
+  .app-subtitle {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.875rem;
+    margin-top: 0.2rem;
+  }
+}
+
+/* ─── Main tab switcher ─────────────────────────────────────── */
+.main-tabs {
+  display: flex;
+  gap: 0.35rem;
+  align-self: center;
+}
+
+.main-tab {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.83rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.85);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+
+  &:hover { background: rgba(255,255,255,0.25); color: $white; }
+
+  &--active {
+    background: $white;
+    border-color: $white;
+    color: $primary;
+  }
+}
+
+/* ─── Add Form ──────────────────────────────────────────────── */
+.add-form {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid $border;
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-end;
+
+  .add-form__inputs {
+    display: flex;
+    flex: 1;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 520px) {
+    flex-direction: column;
+    align-items: stretch;
+
+    .btn { width: 100%; }
+  }
+}
+
+/* ─── Inputs ────────────────────────────────────────────────── */
+.input {
+  border: 1.5px solid $border;
+  border-radius: $radius-sm;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: $text;
+  background: $white;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:focus {
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+  }
+
+  &--title { flex: 1; min-width: 160px; }
+  &--date  { width: 152px; cursor: pointer; }
+}
+
+/* ─── Buttons ───────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: $radius-sm;
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  white-space: nowrap;
+
+  &--primary {
+    background: $primary;
+    color: $white;
+
+    &:hover:not(:disabled) { background: $primary-dark; }
+    &:disabled { opacity: 0.45; cursor: not-allowed; }
+  }
+
+  &--ghost {
+    background: transparent;
+    color: $text-muted;
+    border-color: $border;
+
+    &:hover { background: $surface; color: $text; }
+  }
+
+  &--sm { padding: 0.4rem 0.85rem; font-size: 0.835rem; }
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem 0.4rem;
+  border-radius: $radius-sm;
+  font-size: 1rem;
+  line-height: 1;
+  transition: background 0.12s ease, transform 0.1s ease;
+  opacity: 0.6;
+
+  &:hover { opacity: 1; }
+
+  &--edit:hover   { background: #ede9fe; transform: scale(1.15); }
+  &--delete:hover { background: #fee2e2; transform: scale(1.15); }
+}
+
+/* ─── Filter Tabs ───────────────────────────────────────────── */
+.filter-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid $border;
+  padding: 0 1.5rem;
+
+  .tab {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.65rem 1rem;
+    font-size: 0.865rem;
+    font-family: inherit;
+    color: $text-muted;
+    font-weight: 500;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.15s ease, border-color 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+
+    &:hover { color: $text; }
+
+    &--active {
+      color: $primary;
+      border-bottom-color: $primary;
+    }
+  }
+
+  .badge {
+    background: $surface;
+    color: $text-muted;
+    border-radius: 20px;
+    padding: 0 0.45rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    min-width: 1.4rem;
+    text-align: center;
+  }
+}
+
+/* ─── Todo List ─────────────────────────────────────────────── */
+.todo-list {
+  list-style: none;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1.5rem;
+  border-bottom: 1px solid $border;
+  transition: background 0.12s ease;
+
+  &:last-child { border-bottom: none; }
+  &:hover      { background: $surface; }
+
+  &--completed {
+    .todo-title {
+      text-decoration: line-through;
+      color: $text-muted;
+    }
+  }
+
+  &--editing {
+    background: #f0f4ff;
+    padding: 1rem 1.5rem;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* ─── Checkbox ──────────────────────────────────────────────── */
+.todo-check {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid $border;
+    border-radius: 50%;
+    background: $white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease, border-color 0.15s ease;
+
+    &::after {
+      content: '✓';
+      color: $white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+  }
+
+  input:checked ~ .checkmark {
+    background: $success;
+    border-color: $success;
+
+    &::after { opacity: 1; }
+  }
+
+  &:hover .checkmark { border-color: $primary; }
+}
+
+/* ─── Todo Body ─────────────────────────────────────────────── */
+.todo-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.todo-title {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: $text;
+  word-break: break-word;
+}
+
+.todo-due {
+  font-size: 0.8rem;
+  color: $text-muted;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+
+  &--overdue { color: $danger; }
+  &--today   { color: $warning; font-weight: 600; }
+}
+
+.due-label {
+  padding: 0.1rem 0.45rem;
+  border-radius: 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+
+  &--overdue { background: #fee2e2; color: $danger; }
+  &--today   { background: #fef3c7; color: $warning; }
+}
+
+/* ─── Todo Actions ──────────────────────────────────────────── */
+.todo-actions {
+  display: flex;
+  gap: 0.15rem;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  flex-shrink: 0;
+
+  .todo-item:hover & { opacity: 1; }
+}
+
+/* ─── Edit Form ─────────────────────────────────────────────── */
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  width: 100%;
+
+  .edit-form__inputs {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+
+    .input--title { flex: 1; min-width: 160px; }
+  }
+
+  .edit-form__actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+}
+
+/* ─── Empty State ───────────────────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: $text-muted;
+
+  .empty-state__icon {
+    display: block;
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  p { font-size: 0.95rem; }
+}
+
+/* ─── Footer ────────────────────────────────────────────────── */
+.list-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  border-top: 1px solid $border;
+  background: $surface;
+
+  .footer-count {
+    font-size: 0.85rem;
+    color: $text-muted;
+  }
+}
