@@ -17,16 +17,23 @@
           <button
             class="main-tab"
             [class.main-tab--active]="activeTab === 'todos'"
-            (click)="activeTab = 'todos'"
+            (click)="switchTab('todos')"
           >
             📋 Tasks
           </button>
           <button
             class="main-tab"
             [class.main-tab--active]="activeTab === 'calendar'"
-            (click)="activeTab = 'calendar'"
+            (click)="switchTab('calendar')"
           >
             📅 Calendar
+          </button>
+          <button
+            class="main-tab"
+            [class.main-tab--active]="activeTab === 'pomodoro'"
+            (click)="switchTab('pomodoro')"
+          >
+            🍅 Pomodoro
           </button>
         </div>
       </div>
@@ -34,6 +41,9 @@
 
     <!-- ══ CALENDAR VIEW ══ -->
     <app-calendar *ngIf="activeTab === 'calendar'"></app-calendar>
+
+    <!-- ══ POMODORO VIEW (ROUTED) ══ -->
+    <router-outlet *ngIf="activeTab === 'pomodoro'"></router-outlet>
 
     <!-- ══ TODOS VIEW ══ -->
     <ng-container *ngIf="activeTab === 'todos'">

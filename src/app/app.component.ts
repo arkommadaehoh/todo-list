@@ -1,6 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router, NavigationEnd, RouterModule } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { TodoService } from './todo.service';
 import { Todo } from './todo.model';
 import { CalendarComponent } from './calendar.component';
@@ -9,15 +11,42 @@ import { DatePickerComponent } from './date-picker.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, CalendarComponent, DatePickerComponent],
+  imports: [CommonModule, FormsModule, RouterModule, CalendarComponent, DatePickerComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   readonly todoService = inject(TodoService);
+  private readonly router = inject(Router);
 
   // Top-level tab
-  activeTab: 'todos' | 'calendar' = 'todos';
+  activeTab: 'todos' | 'calendar' | 'pomodoro' = 'todos';
+
+  constructor() {
+    this.syncTabWithUrl(this.router.url);
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
+        this.syncTabWithUrl(event.urlAfterRedirects || event.url);
+      });
+  }
+
+  private syncTabWithUrl(url: string): void {
+    if (url.includes('/pomodoro')) {
+      this.activeTab = 'pomodoro';
+    } else if (this.activeTab === 'pomodoro') {
+      this.activeTab = 'todos';
+    }
+  }
+
+  switchTab(tab: 'todos' | 'calendar' | 'pomodoro'): void {
+    this.activeTab = tab;
+    if (tab === 'pomodoro') {
+      this.router.navigate(['/pomodoro']);
+    } else if (this.router.url.includes('/pomodoro')) {
+      this.router.navigate(['/']);
+    }
+  }
 
   // Add form state — newDueDate stored as YYYY-MM-DD (picker value)
   newTitle = '';

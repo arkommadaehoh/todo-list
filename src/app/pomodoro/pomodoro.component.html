@@ -1,0 +1,135 @@
+<div class="pomodoro-container">
+  <!-- Mode Selector Pills -->
+  <div class="mode-selector">
+    <button
+      class="mode-pill"
+      [class.mode-pill--active]="currentMode() === 'work'"
+      (click)="setMode('work')"
+    >
+      🍅 Work ({{ workDuration() }}m)
+    </button>
+    <button
+      class="mode-pill"
+      [class.mode-pill--active]="currentMode() === 'shortBreak'"
+      (click)="setMode('shortBreak')"
+    >
+      ☕ Short Break ({{ shortBreakDuration() }}m)
+    </button>
+    <button
+      class="mode-pill"
+      [class.mode-pill--active]="currentMode() === 'longBreak'"
+      (click)="setMode('longBreak')"
+    >
+      🌴 Long Break ({{ longBreakDuration() }}m)
+    </button>
+  </div>
+
+  <!-- Timer Card Display -->
+  <div class="timer-display" [ngClass]="'timer-display--' + currentMode()">
+    <!-- Progress ring bar / background indicator -->
+    <div class="progress-bar">
+      <div class="progress-fill" [style.width.%]="progress()"></div>
+    </div>
+
+    <span class="timer-mode-label">{{ modeTitle() }}</span>
+    <h2 class="timer-digits">{{ formattedTime() }}</h2>
+
+    <!-- Quick duration adjusters (when paused) -->
+    <div class="quick-adjust" *ngIf="!isRunning()">
+      <button class="adjust-btn" (click)="adjustMinutes(-1)" title="Minus 1 minute">-1m</button>
+      <button class="adjust-btn" (click)="adjustMinutes(-5)" title="Minus 5 minutes">-5m</button>
+      <button class="adjust-btn" (click)="adjustMinutes(5)" title="Plus 5 minutes">+5m</button>
+      <button class="adjust-btn" (click)="adjustMinutes(1)" title="Plus 1 minute">+1m</button>
+    </div>
+
+    <!-- Main controls -->
+    <div class="timer-controls">
+      <button
+        class="btn-timer btn-timer--primary"
+        (click)="toggleTimer()"
+      >
+        {{ isRunning() ? '⏸ Pause' : '▶ Start' }}
+      </button>
+
+      <button
+        class="btn-timer btn-timer--secondary"
+        (click)="resetTimer()"
+        title="Reset Timer"
+      >
+        🔄 Reset
+      </button>
+
+      <button
+        class="btn-timer btn-timer--secondary"
+        (click)="openSettings()"
+        title="Custom Duration Settings"
+      >
+        ⚙️ Settings
+      </button>
+
+      <button
+        class="btn-timer btn-timer--ghost"
+        (click)="playNotificationSound()"
+        title="Test Sound"
+      >
+        🔔 Test Sound
+      </button>
+    </div>
+  </div>
+
+  <!-- Stats footer -->
+  <div class="pomodoro-stats">
+    <div class="stat-item">
+      <span class="stat-label">Completed Sessions</span>
+      <span class="stat-val">🍅 {{ completedSessions() }}</span>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-overlay" *ngIf="showSettings()" (click)="cancelSettings()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <h3 class="modal-title">⚙️ Timer Settings</h3>
+
+      <div class="setting-row">
+        <label for="workInput">Work Duration (mins):</label>
+        <input
+          id="workInput"
+          type="number"
+          min="1"
+          max="120"
+          [(ngModel)]="tempWork"
+          class="setting-input"
+        />
+      </div>
+
+      <div class="setting-row">
+        <label for="shortInput">Short Break (mins):</label>
+        <input
+          id="shortInput"
+          type="number"
+          min="1"
+          max="60"
+          [(ngModel)]="tempShortBreak"
+          class="setting-input"
+        />
+      </div>
+
+      <div class="setting-row">
+        <label for="longInput">Long Break (mins):</label>
+        <input
+          id="longInput"
+          type="number"
+          min="1"
+          max="60"
+          [(ngModel)]="tempLongBreak"
+          class="setting-input"
+        />
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn--secondary" (click)="cancelSettings()">Cancel</button>
+        <button class="btn btn--primary" (click)="saveSettings()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
