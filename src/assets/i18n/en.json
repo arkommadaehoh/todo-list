@@ -1,0 +1,62 @@
+{
+  "appTitle": "My Todo List",
+  "tasksRemaining": "{{count}} task(s) remaining",
+  "tabTasks": "📋 Tasks",
+  "tabCalendar": "📅 Calendar",
+  "tabPomodoro": "🍅 Pomodoro",
+
+  "addTaskPlaceholder": "What needs to be done?",
+  "addTask": "+ Add Task",
+
+  "filterAll": "All",
+  "filterActive": "Active",
+  "filterCompleted": "Completed",
+
+  "overdue": "Overdue",
+  "today": "Today",
+
+  "editSave": "Save",
+  "editCancel": "Cancel",
+  "editPlaceholder": "Task title",
+
+  "emptyNoCompleted": "No completed tasks yet.",
+  "emptyAllDone": "All tasks done!",
+  "emptyNoTasks": "No tasks yet. Add one above!",
+
+  "footerLeft": "left",
+  "clearCompleted": "Clear completed ({{count}})",
+
+  "confirmDelete": "Are you sure you want to delete this task?",
+  "confirmClearCompleted": "Are you sure you want to clear all completed tasks?",
+
+  "calMonth": "Month",
+  "calDay": "Day",
+  "calToday": "Today",
+  "calNoTasks": "No tasks scheduled for this day.",
+  "calAddPlaceholder": "Add a task for this day…",
+  "calAdd": "+ Add",
+  "calMore": "+{{count}} more",
+
+  "pomWork": "🍅 Work",
+  "pomShortBreak": "☕ Short Break",
+  "pomLongBreak": "🌴 Long Break",
+  "pomModeWork": "Focus Time",
+  "pomModeShortBreak": "Short Break",
+  "pomModeLongBreak": "Long Break",
+  "pomStart": "▶ Start",
+  "pomPause": "⏸ Pause",
+  "pomReset": "🔄 Reset",
+  "pomSettings": "⚙️ Settings",
+  "pomTestSound": "🔔 Test Sound",
+  "pomCompletedSessions": "Completed Sessions",
+  "pomSettingsTitle": "⚙️ Timer Settings",
+  "pomWorkDuration": "Work Duration (mins):",
+  "pomShortBreakDuration": "Short Break (mins):",
+  "pomLongBreakDuration": "Long Break (mins):",
+  "pomCancel": "Cancel",
+  "pomSave": "Save Changes",
+  "pomAlertFocusDone": "🎉 Focus session complete! Time for a {{break}} break.",
+  "pomAlertBreakDone": "⏰ Break finished! Ready to get back to focus?",
+  "pomBreakLong": "long",
+  "pomBreakShort": "short"
+}

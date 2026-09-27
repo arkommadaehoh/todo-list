@@ -6,27 +6,27 @@
       [class.mode-pill--active]="currentMode() === 'work'"
       (click)="setMode('work')"
     >
-      🍅 Work ({{ workDuration() }}m)
+      {{ i18n.t('pomWork') }} ({{ workDuration() }}m)
     </button>
     <button
       class="mode-pill"
       [class.mode-pill--active]="currentMode() === 'shortBreak'"
       (click)="setMode('shortBreak')"
     >
-      ☕ Short Break ({{ shortBreakDuration() }}m)
+      {{ i18n.t('pomShortBreak') }} ({{ shortBreakDuration() }}m)
     </button>
     <button
       class="mode-pill"
       [class.mode-pill--active]="currentMode() === 'longBreak'"
       (click)="setMode('longBreak')"
     >
-      🌴 Long Break ({{ longBreakDuration() }}m)
+      {{ i18n.t('pomLongBreak') }} ({{ longBreakDuration() }}m)
     </button>
   </div>
 
   <!-- Timer Card Display -->
   <div class="timer-display" [ngClass]="'timer-display--' + currentMode()">
-    <!-- Progress ring bar / background indicator -->
+    <!-- Progress bar -->
     <div class="progress-bar">
       <div class="progress-fill" [style.width.%]="progress()"></div>
     </div>
@@ -36,43 +36,28 @@
 
     <!-- Quick duration adjusters (when paused) -->
     <div class="quick-adjust" *ngIf="!isRunning()">
-      <button class="adjust-btn" (click)="adjustMinutes(-1)" title="Minus 1 minute">-1m</button>
-      <button class="adjust-btn" (click)="adjustMinutes(-5)" title="Minus 5 minutes">-5m</button>
-      <button class="adjust-btn" (click)="adjustMinutes(5)" title="Plus 5 minutes">+5m</button>
-      <button class="adjust-btn" (click)="adjustMinutes(1)" title="Plus 1 minute">+1m</button>
+      <button class="adjust-btn" (click)="adjustMinutes(-1)" title="-1m">-1m</button>
+      <button class="adjust-btn" (click)="adjustMinutes(-5)" title="-5m">-5m</button>
+      <button class="adjust-btn" (click)="adjustMinutes(5)" title="+5m">+5m</button>
+      <button class="adjust-btn" (click)="adjustMinutes(1)" title="+1m">+1m</button>
     </div>
 
     <!-- Main controls -->
     <div class="timer-controls">
-      <button
-        class="btn-timer btn-timer--primary"
-        (click)="toggleTimer()"
-      >
-        {{ isRunning() ? '⏸ Pause' : '▶ Start' }}
+      <button class="btn-timer btn-timer--primary" (click)="toggleTimer()">
+        {{ isRunning() ? i18n.t('pomPause') : i18n.t('pomStart') }}
       </button>
 
-      <button
-        class="btn-timer btn-timer--secondary"
-        (click)="resetTimer()"
-        title="Reset Timer"
-      >
-        🔄 Reset
+      <button class="btn-timer btn-timer--secondary" (click)="resetTimer()" [title]="i18n.t('pomReset')">
+        {{ i18n.t('pomReset') }}
       </button>
 
-      <button
-        class="btn-timer btn-timer--secondary"
-        (click)="openSettings()"
-        title="Custom Duration Settings"
-      >
-        ⚙️ Settings
+      <button class="btn-timer btn-timer--secondary" (click)="openSettings()" [title]="i18n.t('pomSettings')">
+        {{ i18n.t('pomSettings') }}
       </button>
 
-      <button
-        class="btn-timer btn-timer--ghost"
-        (click)="playNotificationSound()"
-        title="Test Sound"
-      >
-        🔔 Test Sound
+      <button class="btn-timer btn-timer--ghost" (click)="playNotificationSound()" [title]="i18n.t('pomTestSound')">
+        {{ i18n.t('pomTestSound') }}
       </button>
     </div>
   </div>
@@ -80,7 +65,7 @@
   <!-- Stats footer -->
   <div class="pomodoro-stats">
     <div class="stat-item">
-      <span class="stat-label">Completed Sessions</span>
+      <span class="stat-label">{{ i18n.t('pomCompletedSessions') }}</span>
       <span class="stat-val">🍅 {{ completedSessions() }}</span>
     </div>
   </div>
@@ -88,47 +73,26 @@
   <!-- Settings Modal -->
   <div class="modal-overlay" *ngIf="showSettings()" (click)="cancelSettings()">
     <div class="modal-card" (click)="$event.stopPropagation()">
-      <h3 class="modal-title">⚙️ Timer Settings</h3>
+      <h3 class="modal-title">{{ i18n.t('pomSettingsTitle') }}</h3>
 
       <div class="setting-row">
-        <label for="workInput">Work Duration (mins):</label>
-        <input
-          id="workInput"
-          type="number"
-          min="1"
-          max="120"
-          [(ngModel)]="tempWork"
-          class="setting-input"
-        />
+        <label for="workInput">{{ i18n.t('pomWorkDuration') }}</label>
+        <input id="workInput" type="number" min="1" max="120" [(ngModel)]="tempWork" class="setting-input" />
       </div>
 
       <div class="setting-row">
-        <label for="shortInput">Short Break (mins):</label>
-        <input
-          id="shortInput"
-          type="number"
-          min="1"
-          max="60"
-          [(ngModel)]="tempShortBreak"
-          class="setting-input"
-        />
+        <label for="shortInput">{{ i18n.t('pomShortBreakDuration') }}</label>
+        <input id="shortInput" type="number" min="1" max="60" [(ngModel)]="tempShortBreak" class="setting-input" />
       </div>
 
       <div class="setting-row">
-        <label for="longInput">Long Break (mins):</label>
-        <input
-          id="longInput"
-          type="number"
-          min="1"
-          max="60"
-          [(ngModel)]="tempLongBreak"
-          class="setting-input"
-        />
+        <label for="longInput">{{ i18n.t('pomLongBreakDuration') }}</label>
+        <input id="longInput" type="number" min="1" max="60" [(ngModel)]="tempLongBreak" class="setting-input" />
       </div>
 
       <div class="modal-actions">
-        <button class="btn btn--secondary" (click)="cancelSettings()">Cancel</button>
-        <button class="btn btn--primary" (click)="saveSettings()">Save Changes</button>
+        <button class="btn btn--secondary" (click)="cancelSettings()">{{ i18n.t('pomCancel') }}</button>
+        <button class="btn btn--primary" (click)="saveSettings()">{{ i18n.t('pomSave') }}</button>
       </div>
     </div>
   </div>

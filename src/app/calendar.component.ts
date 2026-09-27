@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CalendarService, CalendarDay } from './calendar.service';
 import { TodoService } from './todo.service';
+import { I18nService } from './i18n.service';
 import { Todo } from './todo.model';
 
 type CalView = 'month' | 'day';
@@ -25,6 +26,7 @@ const WEEKDAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 export class CalendarComponent implements OnInit {
   private calService  = inject(CalendarService);
   readonly todoService = inject(TodoService);
+  readonly i18n = inject(I18nService);
 
   // ── View state ───────────────────────────────────────────────
   calView   = signal<CalView>('month');
@@ -117,7 +119,7 @@ export class CalendarComponent implements OnInit {
   }
 
   removeTodo(id: number): void {
-    if (!confirm('Are you sure you want to delete this task?')) return;
+    if (!confirm(this.i18n.t('confirmDelete'))) return;
     this.todoService.remove(id);
   }
 

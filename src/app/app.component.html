@@ -5,10 +5,10 @@
       <div class="app-header__top">
         <div>
           <h1 class="app-title">
-            <span class="icon">📋</span>My Todo List
+            <span class="icon">📋</span>{{ i18n.t('appTitle') }}
           </h1>
           <p class="app-subtitle">
-            {{ todoService.activeTodos().length }} task(s) remaining
+            {{ i18n.t('tasksRemaining', { count: todoService.activeTodos().length }) }}
           </p>
         </div>
 
@@ -19,21 +19,21 @@
             [class.main-tab--active]="activeTab === 'todos'"
             (click)="switchTab('todos')"
           >
-            📋 Tasks
+            {{ i18n.t('tabTasks') }}
           </button>
           <button
             class="main-tab"
             [class.main-tab--active]="activeTab === 'calendar'"
             (click)="switchTab('calendar')"
           >
-            📅 Calendar
+            {{ i18n.t('tabCalendar') }}
           </button>
           <button
             class="main-tab"
             [class.main-tab--active]="activeTab === 'pomodoro'"
             (click)="switchTab('pomodoro')"
           >
-            🍅 Pomodoro
+            {{ i18n.t('tabPomodoro') }}
           </button>
         </div>
       </div>
@@ -54,7 +54,7 @@
         <input
           class="input input--title"
           type="text"
-          placeholder="What needs to be done?"
+          [placeholder]="i18n.t('addTaskPlaceholder')"
           [(ngModel)]="newTitle"
           name="newTitle"
           autofocus
@@ -65,20 +65,20 @@
         ></app-date-picker>
       </div>
       <button class="btn btn--primary" type="submit" [disabled]="!newTitle.trim()">
-        + Add Task
+        {{ i18n.t('addTask') }}
       </button>
     </form>
 
     <!-- Filter Tabs -->
     <div class="filter-tabs">
-      <button class="tab" [class.tab--active]="filter === 'all'"       (click)="filter = 'all'">
-        All <span class="badge">{{ todoService.todos().length }}</span>
+      <button class="tab" [class.tab--active]="filter === 'all'" (click)="filter = 'all'">
+        {{ i18n.t('filterAll') }} <span class="badge">{{ todoService.todos().length }}</span>
       </button>
-      <button class="tab" [class.tab--active]="filter === 'active'"    (click)="filter = 'active'">
-        Active <span class="badge">{{ todoService.activeTodos().length }}</span>
+      <button class="tab" [class.tab--active]="filter === 'active'" (click)="filter = 'active'">
+        {{ i18n.t('filterActive') }} <span class="badge">{{ todoService.activeTodos().length }}</span>
       </button>
       <button class="tab" [class.tab--active]="filter === 'completed'" (click)="filter = 'completed'">
-        Completed <span class="badge">{{ todoService.completedTodos().length }}</span>
+        {{ i18n.t('filterCompleted') }} <span class="badge">{{ todoService.completedTodos().length }}</span>
       </button>
     </div>
 
@@ -93,7 +93,7 @@
 
         <!-- VIEW MODE -->
         <ng-container *ngIf="editingId() !== todo.id">
-          <label class="todo-check" [title]="todo.completed ? 'Mark incomplete' : 'Mark complete'">
+          <label class="todo-check" [title]="todo.completed ? i18n.t('filterCompleted') : i18n.t('filterActive')">
             <input
               type="checkbox"
               [checked]="todo.completed"
@@ -111,18 +111,14 @@
               [class.todo-due--today]="isDueToday(todo.dueDate) && !todo.completed"
             >
               📅 {{ formatDate(todo.dueDate) }}
-              <span *ngIf="isOverdue(todo.dueDate) && !todo.completed" class="due-label due-label--overdue">Overdue</span>
-              <span *ngIf="isDueToday(todo.dueDate) && !todo.completed" class="due-label due-label--today">Today</span>
+              <span *ngIf="isOverdue(todo.dueDate) && !todo.completed" class="due-label due-label--overdue">{{ i18n.t('overdue') }}</span>
+              <span *ngIf="isDueToday(todo.dueDate) && !todo.completed" class="due-label due-label--today">{{ i18n.t('today') }}</span>
             </span>
           </div>
 
           <div class="todo-actions">
-            <button class="btn-icon btn-icon--edit" (click)="startEdit(todo)" title="Edit">
-              ✏️
-            </button>
-            <button class="btn-icon btn-icon--delete" (click)="removeTodo(todo.id)" title="Delete">
-              🗑️
-            </button>
+            <button class="btn-icon btn-icon--edit" (click)="startEdit(todo)" title="Edit">✏️</button>
+            <button class="btn-icon btn-icon--delete" (click)="removeTodo(todo.id)" title="Delete">🗑️</button>
           </div>
         </ng-container>
 
@@ -135,7 +131,7 @@
                 type="text"
                 [(ngModel)]="editTitle"
                 name="editTitle"
-                placeholder="Task title"
+                [placeholder]="i18n.t('editPlaceholder')"
                 required
                 autofocus
               />
@@ -146,10 +142,10 @@
             </div>
             <div class="edit-form__actions">
               <button class="btn btn--primary btn--sm" type="submit" [disabled]="!editTitle.trim()">
-                Save
+                {{ i18n.t('editSave') }}
               </button>
               <button class="btn btn--ghost btn--sm" type="button" (click)="cancelEdit()">
-                Cancel
+                {{ i18n.t('editCancel') }}
               </button>
             </div>
           </form>
@@ -162,19 +158,23 @@
     <ng-template #emptyState>
       <div class="empty-state">
         <span class="empty-state__icon">🎉</span>
-        <p>{{ filter === 'completed' ? 'No completed tasks yet.' : filter === 'active' ? 'All tasks done!' : 'No tasks yet. Add one above!' }}</p>
+        <p>{{
+          filter === 'completed' ? i18n.t('emptyNoCompleted') :
+          filter === 'active'    ? i18n.t('emptyAllDone') :
+                                   i18n.t('emptyNoTasks')
+        }}</p>
       </div>
     </ng-template>
 
     <!-- Footer -->
     <footer class="list-footer" *ngIf="todoService.todos().length > 0">
-      <span class="footer-count">{{ todoService.activeTodos().length }} left</span>
+      <span class="footer-count">{{ todoService.activeTodos().length }} {{ i18n.t('footerLeft') }}</span>
       <button
         class="btn btn--ghost btn--sm"
         *ngIf="todoService.completedTodos().length > 0"
         (click)="clearCompleted()"
       >
-        Clear completed ({{ todoService.completedTodos().length }})
+        {{ i18n.t('clearCompleted', { count: todoService.completedTodos().length }) }}
       </button>
     </footer>
 
@@ -182,4 +182,11 @@
     <!-- end todos view -->
 
   </div>
+</div>
+
+<!-- Language Switcher — fixed bottom-right, app-wide -->
+<div class="lang-switcher">
+  <button class="lang-btn" [class.lang-btn--active]="i18n.lang() === 'en'" (click)="setLang('en')">EN</button>
+  <button class="lang-btn" [class.lang-btn--active]="i18n.lang() === 'th'" (click)="setLang('th')">ภาษาไทย</button>
+  <button class="lang-btn" [class.lang-btn--active]="i18n.lang() === 'zh'" (click)="setLang('zh')">中文</button>
 </div>

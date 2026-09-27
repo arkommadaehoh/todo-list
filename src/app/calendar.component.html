@@ -10,14 +10,14 @@
         [class.toggle-btn--active]="calView() === 'month'"
         (click)="calView.set('month')"
       >
-        Month
+        {{ i18n.t('calMonth') }}
       </button>
       <button
         class="toggle-btn"
         [class.toggle-btn--active]="calView() === 'day'"
         (click)="calView.set('day')"
       >
-        Day
+        {{ i18n.t('calDay') }}
       </button>
     </div>
 
@@ -31,7 +31,7 @@
     </div>
 
     <!-- Today shortcut -->
-    <button class="today-btn" (click)="goToday()">Today</button>
+    <button class="today-btn" (click)="goToday()">{{ i18n.t('calToday') }}</button>
   </div>
 
   <!-- ═══ MONTH VIEW ════════════════════════════════════════════ -->
@@ -74,7 +74,7 @@
             [title]="t.title"
           >{{ t.title }}</div>
           <div class="cell-pill cell-pill--more" *ngIf="day.todos.length > 2">
-            +{{ day.todos.length - 2 }} more
+            {{ i18n.t('calMore', { count: day.todos.length - 2 }) }}
           </div>
         </div>
       </div>
@@ -89,12 +89,12 @@
       <input
         class="day-quickadd__input"
         type="text"
-        placeholder="Add a task for this day…"
+        [placeholder]="i18n.t('calAddPlaceholder')"
         [(ngModel)]="quickTitle"
         name="quickTitle"
       />
       <button class="btn btn--primary btn--sm" type="submit" [disabled]="!quickTitle.trim()">
-        + Add
+        {{ i18n.t('calAdd') }}
       </button>
     </form>
 
@@ -105,7 +105,7 @@
         *ngFor="let todo of dayTodos(); trackBy: trackById"
         [class.day-task--done]="todo.completed"
       >
-        <label class="todo-check" [title]="todo.completed ? 'Mark incomplete' : 'Mark complete'">
+        <label class="todo-check" [title]="todo.completed ? i18n.t('filterCompleted') : i18n.t('filterActive')">
           <input type="checkbox" [checked]="todo.completed" (change)="toggleComplete(todo.id)" />
           <span class="checkmark"></span>
         </label>
@@ -117,7 +117,7 @@
     <ng-template #dayEmpty>
       <div class="day-empty">
         <span class="day-empty__icon">📭</span>
-        <p>No tasks scheduled for this day.</p>
+        <p>{{ i18n.t('calNoTasks') }}</p>
       </div>
     </ng-template>
   </div>

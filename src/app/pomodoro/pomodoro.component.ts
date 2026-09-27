@@ -1,6 +1,7 @@
-import { Component, OnDestroy, signal, computed } from '@angular/core';
+import { Component, OnDestroy, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { I18nService } from '../i18n.service';
 
 type PomodoroMode = 'work' | 'shortBreak' | 'longBreak';
 
@@ -12,6 +13,8 @@ type PomodoroMode = 'work' | 'shortBreak' | 'longBreak';
   styleUrls: ['./pomodoro.component.scss']
 })
 export class PomodoroComponent implements OnDestroy {
+  readonly i18n = inject(I18nService);
+
   // Mode settings (in minutes)
   workDuration = signal(25);
   shortBreakDuration = signal(5);
@@ -36,11 +39,12 @@ export class PomodoroComponent implements OnDestroy {
   private audioCtx: AudioContext | null = null;
 
   readonly modeTitle = computed(() => {
-    switch (this.currentMode()) {
-      case 'work': return 'Focus Time';
-      case 'shortBreak': return 'Short Break';
-      case 'longBreak': return 'Long Break';
-    }
+    const map: Record<PomodoroMode, string> = {
+      work: 'pomModeWork',
+      shortBreak: 'pomModeShortBreak',
+      longBreak: 'pomModeLongBreak',
+    };
+    return this.i18n.t(map[this.currentMode()]);
   });
 
   readonly formattedTime = computed(() => {
@@ -162,12 +166,13 @@ export class PomodoroComponent implements OnDestroy {
       this.completedSessions.update(c => c + 1);
       const nextMode = this.completedSessions() % 4 === 0 ? 'longBreak' : 'shortBreak';
       setTimeout(() => {
-        alert(`🎉 Focus session complete! Time for a ${nextMode === 'longBreak' ? 'long' : 'short'} break.`);
+        const breakLabel = this.i18n.t(nextMode === 'longBreak' ? 'pomBreakLong' : 'pomBreakShort');
+        alert(this.i18n.t('pomAlertFocusDone', { break: breakLabel }));
         this.setMode(nextMode);
       }, 300);
     } else {
       setTimeout(() => {
-        alert('⏰ Break finished! Ready to get back to focus?');
+        alert(this.i18n.t('pomAlertBreakDone'));
         this.setMode('work');
       }, 300);
     }

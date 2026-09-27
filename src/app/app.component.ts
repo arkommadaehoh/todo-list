@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { TodoService } from './todo.service';
+import { I18nService, Lang } from './i18n.service';
 import { Todo } from './todo.model';
 import { CalendarComponent } from './calendar.component';
 import { DatePickerComponent } from './date-picker.component';
@@ -17,6 +18,7 @@ import { DatePickerComponent } from './date-picker.component';
 })
 export class AppComponent {
   readonly todoService = inject(TodoService);
+  readonly i18n = inject(I18nService);
   private readonly router = inject(Router);
 
   // Top-level tab
@@ -46,6 +48,10 @@ export class AppComponent {
     } else if (this.router.url.includes('/pomodoro')) {
       this.router.navigate(['/']);
     }
+  }
+
+  setLang(lang: Lang): void {
+    this.i18n.setLang(lang);
   }
 
   // Add form state — newDueDate stored as YYYY-MM-DD (picker value)
@@ -97,7 +103,7 @@ export class AppComponent {
   }
 
   removeTodo(id: number): void {
-    if (!confirm('Are you sure you want to delete this task?')) return;
+    if (!confirm(this.i18n.t('confirmDelete'))) return;
     this.todoService.remove(id);
     if (this.editingId() === id) this.cancelEdit();
   }
@@ -117,7 +123,7 @@ export class AppComponent {
   }
 
   clearCompleted(): void {
-    if (!confirm('Are you sure you want to clear all completed tasks?')) return;
+    if (!confirm(this.i18n.t('confirmClearCompleted'))) return;
     this.todoService.completedTodos().forEach(t => this.todoService.remove(t.id));
   }
 

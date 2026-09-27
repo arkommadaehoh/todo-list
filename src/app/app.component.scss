@@ -420,3 +420,39 @@ body {
     color: $text-muted;
   }
 }
+
+/* ─── Language Switcher (fixed bottom-right, app-wide) ──────── */
+.lang-switcher {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  display: flex;
+  gap: 0.35rem;
+  z-index: 900;
+}
+
+.lang-btn {
+  border: 1px solid $border;
+  background: $white;
+  padding: 0.3rem 0.65rem;
+  border-radius: $radius-sm;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: $text-muted;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+
+  &:hover {
+    background: #f3f4f6;
+    color: $text;
+    border-color: #d1d5db;
+  }
+
+  &--active {
+    background: $primary;
+    color: $white;
+    border-color: $primary;
+  }
+}

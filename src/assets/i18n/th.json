@@ -1,0 +1,62 @@
+{
+  "appTitle": "รายการสิ่งที่ต้องทำ",
+  "tasksRemaining": "เหลืออีก {{count}} รายการ",
+  "tabTasks": "📋 งาน",
+  "tabCalendar": "📅 ปฏิทิน",
+  "tabPomodoro": "🍅 โปโมโดโร",
+
+  "addTaskPlaceholder": "ต้องทำอะไร?",
+  "addTask": "+ เพิ่มงาน",
+
+  "filterAll": "ทั้งหมด",
+  "filterActive": "กำลังทำ",
+  "filterCompleted": "เสร็จแล้ว",
+
+  "overdue": "เลยกำหนด",
+  "today": "วันนี้",
+
+  "editSave": "บันทึก",
+  "editCancel": "ยกเลิก",
+  "editPlaceholder": "ชื่องาน",
+
+  "emptyNoCompleted": "ยังไม่มีงานที่เสร็จ",
+  "emptyAllDone": "ทำครบทุกงานแล้ว!",
+  "emptyNoTasks": "ยังไม่มีงาน เพิ่มด้านบนได้เลย!",
+
+  "footerLeft": "เหลืออยู่",
+  "clearCompleted": "ลบที่เสร็จแล้ว ({{count}})",
+
+  "confirmDelete": "ต้องการลบงานนี้ใช่ไหม?",
+  "confirmClearCompleted": "ต้องการลบงานที่เสร็จทั้งหมดใช่ไหม?",
+
+  "calMonth": "เดือน",
+  "calDay": "วัน",
+  "calToday": "วันนี้",
+  "calNoTasks": "ไม่มีงานในวันนี้",
+  "calAddPlaceholder": "เพิ่มงานสำหรับวันนี้…",
+  "calAdd": "+ เพิ่ม",
+  "calMore": "+{{count}} อีก",
+
+  "pomWork": "🍅 งาน",
+  "pomShortBreak": "☕ พักสั้น",
+  "pomLongBreak": "🌴 พักยาว",
+  "pomModeWork": "เวลาโฟกัส",
+  "pomModeShortBreak": "พักสั้น",
+  "pomModeLongBreak": "พักยาว",
+  "pomStart": "▶ เริ่ม",
+  "pomPause": "⏸ หยุด",
+  "pomReset": "🔄 รีเซ็ต",
+  "pomSettings": "⚙️ ตั้งค่า",
+  "pomTestSound": "🔔 ทดสอบเสียง",
+  "pomCompletedSessions": "รอบที่สำเร็จ",
+  "pomSettingsTitle": "⚙️ ตั้งค่าตัวจับเวลา",
+  "pomWorkDuration": "เวลางาน (นาที):",
+  "pomShortBreakDuration": "พักสั้น (นาที):",
+  "pomLongBreakDuration": "พักยาว (นาที):",
+  "pomCancel": "ยกเลิก",
+  "pomSave": "บันทึก",
+  "pomAlertFocusDone": "🎉 โฟกัสเสร็จแล้ว! ถึงเวลา{{break}}",
+  "pomAlertBreakDone": "⏰ หมดเวลาพัก! พร้อมกลับมาโฟกัสอีกครั้ง?",
+  "pomBreakLong": "พักยาว",
+  "pomBreakShort": "พักสั้น"
+}
