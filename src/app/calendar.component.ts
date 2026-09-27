@@ -117,6 +117,7 @@ export class CalendarComponent implements OnInit {
   }
 
   removeTodo(id: number): void {
+    if (!confirm('Are you sure you want to delete this task?')) return;
     this.todoService.remove(id);
   }
 
