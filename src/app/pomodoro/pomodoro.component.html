@@ -6,21 +6,21 @@
       [class.mode-pill--active]="currentMode() === 'work'"
       (click)="setMode('work')"
     >
-      {{ i18n.t('pomWork') }} ({{ workDuration() }}m)
+      {{ texts().pomWork }} ({{ workDuration() }}m)
     </button>
     <button
       class="mode-pill"
       [class.mode-pill--active]="currentMode() === 'shortBreak'"
       (click)="setMode('shortBreak')"
     >
-      {{ i18n.t('pomShortBreak') }} ({{ shortBreakDuration() }}m)
+      {{ texts().pomShortBreak }} ({{ shortBreakDuration() }}m)
     </button>
     <button
       class="mode-pill"
       [class.mode-pill--active]="currentMode() === 'longBreak'"
       (click)="setMode('longBreak')"
     >
-      {{ i18n.t('pomLongBreak') }} ({{ longBreakDuration() }}m)
+      {{ texts().pomLongBreak }} ({{ longBreakDuration() }}m)
     </button>
   </div>
 
@@ -45,19 +45,19 @@
     <!-- Main controls -->
     <div class="timer-controls">
       <button class="btn-timer btn-timer--primary" (click)="toggleTimer()">
-        {{ isRunning() ? i18n.t('pomPause') : i18n.t('pomStart') }}
+        {{ isRunning() ? texts().pomPause : texts().pomStart }}
       </button>
 
-      <button class="btn-timer btn-timer--secondary" (click)="resetTimer()" [title]="i18n.t('pomReset')">
-        {{ i18n.t('pomReset') }}
+      <button class="btn-timer btn-timer--secondary" (click)="resetTimer()" [title]="texts().pomReset">
+        {{ texts().pomReset }}
       </button>
 
-      <button class="btn-timer btn-timer--secondary" (click)="openSettings()" [title]="i18n.t('pomSettings')">
-        {{ i18n.t('pomSettings') }}
+      <button class="btn-timer btn-timer--secondary" (click)="openSettings()" [title]="texts().pomSettings">
+        {{ texts().pomSettings }}
       </button>
 
-      <button class="btn-timer btn-timer--ghost" (click)="playNotificationSound()" [title]="i18n.t('pomTestSound')">
-        {{ i18n.t('pomTestSound') }}
+      <button class="btn-timer btn-timer--ghost" (click)="playNotificationSound()" [title]="texts().pomTestSound">
+        {{ texts().pomTestSound }}
       </button>
     </div>
   </div>
@@ -65,7 +65,7 @@
   <!-- Stats footer -->
   <div class="pomodoro-stats">
     <div class="stat-item">
-      <span class="stat-label">{{ i18n.t('pomCompletedSessions') }}</span>
+      <span class="stat-label">{{ texts().pomCompletedSessions }}</span>
       <span class="stat-val">🍅 {{ completedSessions() }}</span>
     </div>
   </div>
@@ -73,26 +73,26 @@
   <!-- Settings Modal -->
   <div class="modal-overlay" *ngIf="showSettings()" (click)="cancelSettings()">
     <div class="modal-card" (click)="$event.stopPropagation()">
-      <h3 class="modal-title">{{ i18n.t('pomSettingsTitle') }}</h3>
+      <h3 class="modal-title">{{ texts().pomSettingsTitle }}</h3>
 
       <div class="setting-row">
-        <label for="workInput">{{ i18n.t('pomWorkDuration') }}</label>
+        <label for="workInput">{{ texts().pomWorkDuration }}</label>
         <input id="workInput" type="number" min="1" max="120" [(ngModel)]="tempWork" class="setting-input" />
       </div>
 
       <div class="setting-row">
-        <label for="shortInput">{{ i18n.t('pomShortBreakDuration') }}</label>
+        <label for="shortInput">{{ texts().pomShortBreakDuration }}</label>
         <input id="shortInput" type="number" min="1" max="60" [(ngModel)]="tempShortBreak" class="setting-input" />
       </div>
 
       <div class="setting-row">
-        <label for="longInput">{{ i18n.t('pomLongBreakDuration') }}</label>
+        <label for="longInput">{{ texts().pomLongBreakDuration }}</label>
         <input id="longInput" type="number" min="1" max="60" [(ngModel)]="tempLongBreak" class="setting-input" />
       </div>
 
       <div class="modal-actions">
-        <button class="btn btn--secondary" (click)="cancelSettings()">{{ i18n.t('pomCancel') }}</button>
-        <button class="btn btn--primary" (click)="saveSettings()">{{ i18n.t('pomSave') }}</button>
+        <button class="btn btn--secondary" (click)="cancelSettings()">{{ texts().pomCancel }}</button>
+        <button class="btn btn--primary" (click)="saveSettings()">{{ texts().pomSave }}</button>
       </div>
     </div>
   </div>

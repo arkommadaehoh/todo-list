@@ -15,6 +15,32 @@ type PomodoroMode = 'work' | 'shortBreak' | 'longBreak';
 export class PomodoroComponent implements OnDestroy {
   readonly i18n = inject(I18nService);
 
+  /**
+   * Reactive translation lookup. Reads i18n.lang() so Angular tracks it as
+   * a signal dependency — the template re-renders whenever the language changes.
+   */
+  readonly texts = computed(() => {
+    // Reading lang() registers this computed as a dependent of the lang signal.
+    this.i18n.lang();
+    return {
+      pomWork: this.i18n.t('pomWork'),
+      pomShortBreak: this.i18n.t('pomShortBreak'),
+      pomLongBreak: this.i18n.t('pomLongBreak'),
+      pomStart: this.i18n.t('pomStart'),
+      pomPause: this.i18n.t('pomPause'),
+      pomReset: this.i18n.t('pomReset'),
+      pomSettings: this.i18n.t('pomSettings'),
+      pomTestSound: this.i18n.t('pomTestSound'),
+      pomCompletedSessions: this.i18n.t('pomCompletedSessions'),
+      pomSettingsTitle: this.i18n.t('pomSettingsTitle'),
+      pomWorkDuration: this.i18n.t('pomWorkDuration'),
+      pomShortBreakDuration: this.i18n.t('pomShortBreakDuration'),
+      pomLongBreakDuration: this.i18n.t('pomLongBreakDuration'),
+      pomCancel: this.i18n.t('pomCancel'),
+      pomSave: this.i18n.t('pomSave'),
+    };
+  });
+
   // Mode settings (in minutes)
   workDuration = signal(25);
   shortBreakDuration = signal(5);
@@ -39,6 +65,8 @@ export class PomodoroComponent implements OnDestroy {
   private audioCtx: AudioContext | null = null;
 
   readonly modeTitle = computed(() => {
+    // Reading lang() here ensures modeTitle also reacts to language changes.
+    this.i18n.lang();
     const map: Record<PomodoroMode, string> = {
       work: 'pomModeWork',
       shortBreak: 'pomModeShortBreak',
