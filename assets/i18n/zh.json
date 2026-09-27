@@ -1,0 +1,62 @@
+{
+  "appTitle": "我的待办事项",
+  "tasksRemaining": "剩余 {{count}} 项任务",
+  "tabTasks": "📋 任务",
+  "tabCalendar": "📅 日历",
+  "tabPomodoro": "🍅 番茄钟",
+
+  "addTaskPlaceholder": "需要做什么？",
+  "addTask": "+ 添加任务",
+
+  "filterAll": "全部",
+  "filterActive": "进行中",
+  "filterCompleted": "已完成",
+
+  "overdue": "已逾期",
+  "today": "今天",
+
+  "editSave": "保存",
+  "editCancel": "取消",
+  "editPlaceholder": "任务标题",
+
+  "emptyNoCompleted": "还没有已完成的任务。",
+  "emptyAllDone": "所有任务都完成了！",
+  "emptyNoTasks": "还没有任务，在上方添加一个吧！",
+
+  "footerLeft": "剩余",
+  "clearCompleted": "清除已完成 ({{count}})",
+
+  "confirmDelete": "确定要删除这个任务吗？",
+  "confirmClearCompleted": "确定要清除所有已完成的任务吗？",
+
+  "calMonth": "月视图",
+  "calDay": "日视图",
+  "calToday": "今天",
+  "calNoTasks": "这一天没有安排任务。",
+  "calAddPlaceholder": "为今天添加任务…",
+  "calAdd": "+ 添加",
+  "calMore": "+{{count}} 更多",
+
+  "pomWork": "🍅 工作",
+  "pomShortBreak": "☕ 短休息",
+  "pomLongBreak": "🌴 长休息",
+  "pomModeWork": "专注时间",
+  "pomModeShortBreak": "短休息",
+  "pomModeLongBreak": "长休息",
+  "pomStart": "▶ 开始",
+  "pomPause": "⏸ 暂停",
+  "pomReset": "🔄 重置",
+  "pomSettings": "⚙️ 设置",
+  "pomTestSound": "🔔 测试声音",
+  "pomCompletedSessions": "已完成轮数",
+  "pomSettingsTitle": "⚙️ 计时器设置",
+  "pomWorkDuration": "工作时长（分钟）:",
+  "pomShortBreakDuration": "短休息（分钟）:",
+  "pomLongBreakDuration": "长休息（分钟）:",
+  "pomCancel": "取消",
+  "pomSave": "保存",
+  "pomAlertFocusDone": "🎉 专注结束！是时候{{break}}了。",
+  "pomAlertBreakDone": "⏰ 休息结束！准备好重新专注了吗？",
+  "pomBreakLong": "长休息",
+  "pomBreakShort": "短休息"
+}
