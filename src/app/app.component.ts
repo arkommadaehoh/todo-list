@@ -84,7 +84,7 @@ export class AppComponent {
 
   isDueToday(dueDate: string | null): boolean {
     if (!dueDate) return false;
-    return dueDate === new Date().toISOString().split('T')[0];
+    return dueDate === this.todayStr();
   }
 
   clearCompleted(): void {
@@ -104,6 +104,10 @@ export class AppComponent {
   }
 
   private todayStr(): string {
-    return new Date().toISOString().split('T')[0];
+    const d = new Date();
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
   }
 }
