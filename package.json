@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "deploy": "ng build --base-href /todo-list/ && npx angular-cli-ghpages --dir=dist/todo-app/browser",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
