@@ -50,8 +50,12 @@
         [class.cal-cell--other]="!day.isCurrentMonth"
         [class.cal-cell--today]="day.isToday"
         [class.cal-cell--has-todos]="day.todos.length > 0"
+        [class.cal-cell--drag-over]="dragOverDateStr === day.dateStr"
         (click)="selectDay(day)"
         [title]="'View ' + day.dateStr"
+        (dragover)="onDragOver($event, day.dateStr)"
+        (dragleave)="onDragLeave(day.dateStr)"
+        (drop)="onDrop($event, day.dateStr)"
       >
         <span class="cell-date">{{ day.date.getDate() }}</span>
 
@@ -71,7 +75,12 @@
             class="cell-pill"
             *ngFor="let t of day.todos.slice(0, 2)"
             [class.cell-pill--done]="t.completed"
+            [class.cell-pill--dragging]="draggingTodoId === t.id"
             [title]="t.title"
+            draggable="true"
+            (dragstart)="onDragStart($event, t)"
+            (dragend)="onDragEnd()"
+            (click)="$event.stopPropagation()"
           >{{ t.title }}</div>
           <div class="cell-pill cell-pill--more" *ngIf="day.todos.length > 2">
             {{ i18n.t('calMore', { count: day.todos.length - 2 }) }}

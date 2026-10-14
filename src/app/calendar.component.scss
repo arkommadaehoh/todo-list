@@ -183,6 +183,12 @@ $radius-sm:    6px;
       justify-content: center;
     }
   }
+
+  &--drag-over {
+    background: #ede9fe !important;
+    outline: 2px dashed $primary;
+    outline-offset: -2px;
+  }
 }
 
 .cell-date {
@@ -216,6 +222,10 @@ $radius-sm:    6px;
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: 500;
+  cursor: grab;
+  user-select: none;
+
+  &:active { cursor: grabbing; }
 
   &--done {
     background: #dcfce7;
@@ -228,6 +238,11 @@ $radius-sm:    6px;
     background: $surface;
     color: $text-muted;
     font-style: italic;
+    cursor: default;
+  }
+
+  &--dragging {
+    opacity: 0.4;
   }
 }
 

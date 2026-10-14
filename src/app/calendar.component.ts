@@ -1,5 +1,5 @@
 import {
-  Component, inject, signal, computed, OnInit, Input, Output, EventEmitter
+  Component, inject, signal, computed, OnInit
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -60,7 +60,43 @@ export class CalendarComponent implements OnInit {
   // ── Quick-add from calendar ───────────────────────────────────
   quickTitle = '';
 
+  // ── Drag-and-drop state ───────────────────────────────────────
+  draggingTodoId: number | null = null;
+  dragOverDateStr: string | null = null;
+
   ngOnInit(): void {}
+
+  onDragStart(event: DragEvent, todo: Todo): void {
+    this.draggingTodoId = todo.id;
+    event.dataTransfer!.effectAllowed = 'move';
+    event.dataTransfer!.setData('text/plain', String(todo.id));
+  }
+
+  onDragEnd(): void {
+    this.draggingTodoId = null;
+    this.dragOverDateStr = null;
+  }
+
+  onDragOver(event: DragEvent, dateStr: string): void {
+    event.preventDefault();
+    event.dataTransfer!.dropEffect = 'move';
+    this.dragOverDateStr = dateStr;
+  }
+
+  onDragLeave(dateStr: string): void {
+    if (this.dragOverDateStr === dateStr) {
+      this.dragOverDateStr = null;
+    }
+  }
+
+  onDrop(event: DragEvent, dateStr: string): void {
+    event.preventDefault();
+    if (this.draggingTodoId !== null) {
+      this.todoService.update(this.draggingTodoId, { dueDate: dateStr });
+    }
+    this.draggingTodoId = null;
+    this.dragOverDateStr = null;
+  }
 
   // ── Navigation ───────────────────────────────────────────────
   prevMonth(): void {
