@@ -6,13 +6,25 @@ $surface:    #f9fafb;
 $white:      #ffffff;
 $radius:     8px;
 
-.kanban { padding: 1.25rem 1.5rem 1.5rem; }
+.kanban {
+  padding: 1.25rem 1.5rem 1.5rem;
+
+  @media (max-width: 600px) {
+    padding: 1rem 0.75rem 1.25rem;
+  }
+}
 
 .kanban-add {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
   margin-bottom: 1.1rem;
+
+  @media (max-width: 520px) {
+    flex-direction: column;
+
+    &__btn { width: 100%; }
+  }
 
   &__input {
     flex: 1;
@@ -173,6 +185,11 @@ $radius:     8px;
     margin-left: auto;
     &:hover { opacity: 1; }
   }
+}
+
+/* ─── Card delete always visible on touch ──────────────────── */
+@media (hover: none) {
+  .card-item__delete { opacity: 1; }
 }
 
 /* ─── Inline due + labels row ───────────────────────────────── */

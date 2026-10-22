@@ -114,6 +114,10 @@ $radius-sm:    6px;
   border-bottom: 1px solid $border;
   padding: 0 1.5rem;
 
+  @media (max-width: 400px) {
+    padding: 0 0.75rem;
+  }
+
   .tab {
     background: none;
     border: none;
@@ -135,6 +139,11 @@ $radius-sm:    6px;
     &--active {
       color: $primary;
       border-bottom-color: $primary;
+    }
+
+    @media (max-width: 400px) {
+      padding: 0.65rem 0.6rem;
+      font-size: 0.8rem;
     }
   }
 
@@ -287,6 +296,11 @@ $radius-sm:    6px;
   flex-shrink: 0;
 
   .todo-item:hover & { opacity: 1; }
+
+  /* Always visible on touch devices (no reliable hover) */
+  @media (hover: none) {
+    opacity: 1;
+  }
 }
 
 /* ─── Edit Form ─────────────────────────────────────────────── */

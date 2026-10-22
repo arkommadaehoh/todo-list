@@ -32,6 +32,11 @@ body {
   align-items: flex-start;
   padding: 3rem 1rem 4rem;
   min-height: 100vh;
+
+  @media (max-width: 600px) {
+    padding: 0 0 5rem;
+    align-items: stretch;
+  }
 }
 
 .card {
@@ -44,6 +49,12 @@ body {
   transition: max-width 0.25s ease;
 
   &--wide { max-width: 900px; }
+
+  @media (max-width: 600px) {
+    border-radius: 0;
+    box-shadow: none;
+    min-height: 100vh;
+  }
 }
 
 /* ─── Header ────────────────────────────────────────────────── */
@@ -52,12 +63,22 @@ body {
   padding: 1.25rem 1.5rem 1.1rem;
   border-radius: $radius $radius 0 0;
 
+  @media (max-width: 600px) {
+    border-radius: 0;
+    padding: 0.9rem 1rem 0.8rem;
+  }
+
   &__top {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 1rem;
     flex-wrap: wrap;
+
+    @media (max-width: 600px) {
+      flex-direction: column;
+      gap: 0.6rem;
+    }
   }
 }
 
@@ -67,6 +88,11 @@ body {
   align-items: center;
   gap: 0.5rem;
   flex-wrap: wrap;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    justify-content: space-between;
+  }
 }
 
 /* ─── Gear / Settings button ────────────────────────────────── */
@@ -186,6 +212,12 @@ body {
   display: flex;
   gap: 0.35rem;
   align-self: center;
+  flex-wrap: wrap;
+
+  @media (max-width: 600px) {
+    flex: 1;
+    gap: 0.25rem;
+  }
 }
 
 .main-tab {
@@ -210,6 +242,13 @@ body {
     border-color: $white;
     color: $primary;
   }
+
+  @media (max-width: 600px) {
+    padding: 0.35rem 0.65rem;
+    font-size: 0.78rem;
+    flex: 1;
+    justify-content: center;
+  }
 }
 
 /* ─── Language Switcher (fixed bottom-right, app-wide) ──────── */
@@ -220,6 +259,17 @@ body {
   display: flex;
   gap: 0.35rem;
   z-index: 900;
+
+  @media (max-width: 600px) {
+    bottom: 0;
+    right: 0;
+    left: 0;
+    border-top: 1px solid $border;
+    background: $white;
+    padding: 0.5rem 1rem;
+    justify-content: center;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.06);
+  }
 }
 
 .lang-btn {

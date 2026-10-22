@@ -123,6 +123,10 @@ $radius-sm:    6px;
   line-height: 1.1;
   margin: 0.5rem 0 1rem;
   font-variant-numeric: tabular-nums;
+
+  @media (max-width: 380px) {
+    font-size: 3rem;
+  }
 }
 
 /* Quick adjusters */
@@ -209,6 +213,7 @@ $radius-sm:    6px;
   display: flex;
   gap: 1.5rem;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .stat-item {
