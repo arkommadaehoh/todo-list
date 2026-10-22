@@ -68,6 +68,7 @@
   "pomBreakShort": "พักสั้น",
 
   "settingsTitle": "การตั้งค่า",
+  "settingsLanguage": "ภาษา",
   "labelManagerTitle": "จัดการป้ายกำกับ",
   "labelManagerDesc": "สร้างและจัดการป้ายกำกับเพื่อจัดระเบียบงานของคุณ",
   "labelNamePlaceholder": "ชื่อป้ายกำกับ…",

@@ -10,25 +10,6 @@ $white:        #ffffff;
 $radius:       10px;
 $radius-sm:    6px;
 
-/* ─── Page Header ───────────────────────────────────────────── */
-.lm-header {
-  padding: 1.5rem 1.5rem 0.5rem;
-  border-bottom: 1px solid $border;
-
-  .lm-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: $text;
-    margin: 0 0 0.25rem;
-  }
-
-  .lm-desc {
-    font-size: 0.875rem;
-    color: $text-muted;
-    margin: 0;
-  }
-}
-
 /* ─── Add Form ──────────────────────────────────────────────── */
 .lm-add-form {
   display: flex;

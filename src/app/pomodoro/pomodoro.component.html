@@ -6,21 +6,21 @@
       [class.mode-pill--active]="currentMode() === 'work'"
       (click)="setMode('work')"
     >
-      {{ texts().pomWork }} ({{ workDuration() }}m)
+      {{ texts().pomWork }} ({{ pomSettings.workDuration() }}m)
     </button>
     <button
       class="mode-pill"
       [class.mode-pill--active]="currentMode() === 'shortBreak'"
       (click)="setMode('shortBreak')"
     >
-      {{ texts().pomShortBreak }} ({{ shortBreakDuration() }}m)
+      {{ texts().pomShortBreak }} ({{ pomSettings.shortBreakDuration() }}m)
     </button>
     <button
       class="mode-pill"
       [class.mode-pill--active]="currentMode() === 'longBreak'"
       (click)="setMode('longBreak')"
     >
-      {{ texts().pomLongBreak }} ({{ longBreakDuration() }}m)
+      {{ texts().pomLongBreak }} ({{ pomSettings.longBreakDuration() }}m)
     </button>
   </div>
 
@@ -36,10 +36,10 @@
 
     <!-- Quick duration adjusters (when paused) -->
     <div class="quick-adjust" *ngIf="!isRunning()">
-      <button class="adjust-btn" (click)="adjustMinutes(-1)" title="-1m">-1m</button>
       <button class="adjust-btn" (click)="adjustMinutes(-5)" title="-5m">-5m</button>
-      <button class="adjust-btn" (click)="adjustMinutes(5)" title="+5m">+5m</button>
-      <button class="adjust-btn" (click)="adjustMinutes(1)" title="+1m">+1m</button>
+      <button class="adjust-btn" (click)="adjustMinutes(-1)" title="-1m">-1m</button>
+      <button class="adjust-btn" (click)="adjustMinutes(1)"  title="+1m">+1m</button>
+      <button class="adjust-btn" (click)="adjustMinutes(5)"  title="+5m">+5m</button>
     </div>
 
     <!-- Main controls -->
@@ -50,10 +50,6 @@
 
       <button class="btn-timer btn-timer--secondary" (click)="resetTimer()" [title]="texts().pomReset">
         {{ texts().pomReset }}
-      </button>
-
-      <button class="btn-timer btn-timer--secondary" (click)="openSettings()" [title]="texts().pomSettings">
-        {{ texts().pomSettings }}
       </button>
 
       <button class="btn-timer btn-timer--ghost" (click)="playNotificationSound()" [title]="texts().pomTestSound">
@@ -67,33 +63,6 @@
     <div class="stat-item">
       <span class="stat-label">{{ texts().pomCompletedSessions }}</span>
       <span class="stat-val">🍅 {{ completedSessions() }}</span>
-    </div>
-  </div>
-
-  <!-- Settings Modal -->
-  <div class="modal-overlay" *ngIf="showSettings()" (click)="cancelSettings()">
-    <div class="modal-card" (click)="$event.stopPropagation()">
-      <h3 class="modal-title">{{ texts().pomSettingsTitle }}</h3>
-
-      <div class="setting-row">
-        <label for="workInput">{{ texts().pomWorkDuration }}</label>
-        <input id="workInput" type="number" min="1" max="120" [(ngModel)]="tempWork" class="setting-input" />
-      </div>
-
-      <div class="setting-row">
-        <label for="shortInput">{{ texts().pomShortBreakDuration }}</label>
-        <input id="shortInput" type="number" min="1" max="60" [(ngModel)]="tempShortBreak" class="setting-input" />
-      </div>
-
-      <div class="setting-row">
-        <label for="longInput">{{ texts().pomLongBreakDuration }}</label>
-        <input id="longInput" type="number" min="1" max="60" [(ngModel)]="tempLongBreak" class="setting-input" />
-      </div>
-
-      <div class="modal-actions">
-        <button class="btn btn--secondary" (click)="cancelSettings()">{{ texts().pomCancel }}</button>
-        <button class="btn btn--primary" (click)="saveSettings()">{{ texts().pomSave }}</button>
-      </div>
     </div>
   </div>
 </div>

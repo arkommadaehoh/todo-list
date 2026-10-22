@@ -53,14 +53,14 @@
 
 <!-- Filter Tabs -->
 <div class="filter-tabs">
-  <button class="tab" [class.tab--active]="filter === 'all'" (click)="filter = 'all'">
-    {{ i18n.t('filterAll') }} <span class="badge">{{ todoService.todos().length }}</span>
-  </button>
   <button class="tab" [class.tab--active]="filter === 'active'" (click)="filter = 'active'">
     {{ i18n.t('filterActive') }} <span class="badge">{{ todoService.activeTodos().length }}</span>
   </button>
   <button class="tab" [class.tab--active]="filter === 'completed'" (click)="filter = 'completed'">
     {{ i18n.t('filterCompleted') }} <span class="badge">{{ todoService.completedTodos().length }}</span>
+  </button>
+  <button class="tab" [class.tab--active]="filter === 'all'" (click)="filter = 'all'">
+    {{ i18n.t('filterAll') }} <span class="badge">{{ todoService.todos().length }}</span>
   </button>
 </div>
 

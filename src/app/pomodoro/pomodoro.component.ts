@@ -1,82 +1,69 @@
-import { Component, OnDestroy, inject, signal, computed } from '@angular/core';
+import { Component, OnDestroy, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { I18nStore } from '../i18n.store';
+import { PomodoroSettingsStore } from './pomodoro-settings.store';
+import { signal } from '@angular/core';
 
 type PomodoroMode = 'work' | 'shortBreak' | 'longBreak';
 
 @Component({
   selector: 'app-pomodoro',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule],
   templateUrl: './pomodoro.component.html',
   styleUrls: ['./pomodoro.component.scss']
 })
 export class PomodoroComponent implements OnDestroy {
-  readonly i18n = inject(I18nStore);
+  readonly i18n     = inject(I18nStore);
+  readonly pomSettings = inject(PomodoroSettingsStore);
 
   /**
    * Reactive translation lookup. Reads i18n.lang() so Angular tracks it as
    * a signal dependency — the template re-renders whenever the language changes.
    */
   readonly texts = computed(() => {
-    // Reading lang() registers this computed as a dependent of the lang signal.
     this.i18n.lang();
     return {
-      pomWork: this.i18n.t('pomWork'),
-      pomShortBreak: this.i18n.t('pomShortBreak'),
-      pomLongBreak: this.i18n.t('pomLongBreak'),
-      pomStart: this.i18n.t('pomStart'),
-      pomPause: this.i18n.t('pomPause'),
-      pomReset: this.i18n.t('pomReset'),
-      pomSettings: this.i18n.t('pomSettings'),
-      pomTestSound: this.i18n.t('pomTestSound'),
+      pomWork:              this.i18n.t('pomWork'),
+      pomShortBreak:        this.i18n.t('pomShortBreak'),
+      pomLongBreak:         this.i18n.t('pomLongBreak'),
+      pomStart:             this.i18n.t('pomStart'),
+      pomPause:             this.i18n.t('pomPause'),
+      pomReset:             this.i18n.t('pomReset'),
+      pomTestSound:         this.i18n.t('pomTestSound'),
       pomCompletedSessions: this.i18n.t('pomCompletedSessions'),
-      pomSettingsTitle: this.i18n.t('pomSettingsTitle'),
-      pomWorkDuration: this.i18n.t('pomWorkDuration'),
-      pomShortBreakDuration: this.i18n.t('pomShortBreakDuration'),
-      pomLongBreakDuration: this.i18n.t('pomLongBreakDuration'),
-      pomCancel: this.i18n.t('pomCancel'),
-      pomSave: this.i18n.t('pomSave'),
     };
   });
 
-  // Mode settings (in minutes)
-  workDuration = signal(25);
-  shortBreakDuration = signal(5);
-  longBreakDuration = signal(15);
-
   currentMode = signal<PomodoroMode>('work');
-  isRunning = signal(false);
+  isRunning   = signal(false);
 
-  // Time remaining in seconds
-  timeLeft = signal(25 * 60);
+  // Time remaining in seconds — seeded from the store's current work duration
+  timeLeft = signal(0);
 
-  // Stats
   completedSessions = signal(0);
-
-  // Settings modal / edit mode toggle
-  showSettings = signal(false);
-  tempWork = 25;
-  tempShortBreak = 5;
-  tempLongBreak = 15;
 
   private timerInterval: any = null;
   private audioCtx: AudioContext | null = null;
+  private initialized = false;
+
+  constructor() {
+    // Seed timeLeft once the store is available
+    this.timeLeft.set(this.pomSettings.workDuration() * 60);
+  }
 
   readonly modeTitle = computed(() => {
-    // Reading lang() here ensures modeTitle also reacts to language changes.
     this.i18n.lang();
     const map: Record<PomodoroMode, string> = {
-      work: 'pomModeWork',
+      work:       'pomModeWork',
       shortBreak: 'pomModeShortBreak',
-      longBreak: 'pomModeLongBreak',
+      longBreak:  'pomModeLongBreak',
     };
     return this.i18n.t(map[this.currentMode()]);
   });
 
   readonly formattedTime = computed(() => {
-    const total = this.timeLeft();
+    const total   = this.timeLeft();
     const minutes = Math.floor(total / 60);
     const seconds = total % 60;
     return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
@@ -133,57 +120,27 @@ export class PomodoroComponent implements OnDestroy {
 
   adjustMinutes(delta: number): void {
     const current = this.currentMode();
-    let currentMins = 25;
     if (current === 'work') {
-      const next = Math.max(1, Math.min(120, this.workDuration() + delta));
-      this.workDuration.set(next);
-      currentMins = next;
+      const next = Math.max(1, Math.min(120, this.pomSettings.workDuration() + delta));
+      this.pomSettings.setWorkDuration(next);
     } else if (current === 'shortBreak') {
-      const next = Math.max(1, Math.min(60, this.shortBreakDuration() + delta));
-      this.shortBreakDuration.set(next);
-      currentMins = next;
+      const next = Math.max(1, Math.min(60, this.pomSettings.shortBreakDuration() + delta));
+      this.pomSettings.setShortBreakDuration(next);
     } else {
-      const next = Math.max(1, Math.min(60, this.longBreakDuration() + delta));
-      this.longBreakDuration.set(next);
-      currentMins = next;
+      const next = Math.max(1, Math.min(60, this.pomSettings.longBreakDuration() + delta));
+      this.pomSettings.setLongBreakDuration(next);
     }
 
     if (!this.isRunning()) {
-      this.timeLeft.set(currentMins * 60);
+      this.timeLeft.set(this.getTotalSecondsForMode(current));
     }
-  }
-
-  openSettings(): void {
-    this.tempWork = this.workDuration();
-    this.tempShortBreak = this.shortBreakDuration();
-    this.tempLongBreak = this.longBreakDuration();
-    this.showSettings.set(true);
-  }
-
-  saveSettings(): void {
-    const w = Math.max(1, Math.min(120, Number(this.tempWork) || 25));
-    const sb = Math.max(1, Math.min(60, Number(this.tempShortBreak) || 5));
-    const lb = Math.max(1, Math.min(60, Number(this.tempLongBreak) || 15));
-
-    this.workDuration.set(w);
-    this.shortBreakDuration.set(sb);
-    this.longBreakDuration.set(lb);
-    this.showSettings.set(false);
-
-    if (!this.isRunning()) {
-      this.timeLeft.set(this.getTotalSecondsForMode(this.currentMode()));
-    }
-  }
-
-  cancelSettings(): void {
-    this.showSettings.set(false);
   }
 
   private getTotalSecondsForMode(mode: PomodoroMode): number {
     switch (mode) {
-      case 'work': return this.workDuration() * 60;
-      case 'shortBreak': return this.shortBreakDuration() * 60;
-      case 'longBreak': return this.longBreakDuration() * 60;
+      case 'work':       return this.pomSettings.workDuration()       * 60;
+      case 'shortBreak': return this.pomSettings.shortBreakDuration() * 60;
+      case 'longBreak':  return this.pomSettings.longBreakDuration()  * 60;
     }
   }
 
@@ -222,24 +179,24 @@ export class PomodoroComponent implements OnDestroy {
       const ctx = this.audioCtx;
       const now = ctx.currentTime;
 
-      // Play 3 melodic bell chime tones: C5, E5, G5
-      const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+      // Play 4 melodic bell chime tones: C5, E5, G5, C6
+      const notes = [523.25, 659.25, 783.99, 1046.50];
       notes.forEach((freq, idx) => {
-        const osc = ctx.createOscillator();
+        const osc  = ctx.createOscillator();
         const gain = ctx.createGain();
 
         osc.type = 'sine';
         osc.frequency.setValueAtTime(freq, now + idx * 0.15);
 
         gain.gain.setValueAtTime(0.001, now + idx * 0.15);
-        gain.gain.exponentialRampToValueAtTime(0.3, now + idx * 0.15 + 0.03);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.15 + 0.6);
+        gain.gain.exponentialRampToValueAtTime(0.3,     now + idx * 0.15 + 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.0001,  now + idx * 0.15 + 0.6);
 
         osc.connect(gain);
         gain.connect(ctx.destination);
 
         osc.start(now + idx * 0.15);
-        osc.stop(now + idx * 0.15 + 0.7);
+        osc.stop(now  + idx * 0.15 + 0.7);
       });
     } catch (e) {
       console.warn('Audio playback failed', e);

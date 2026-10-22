@@ -4,6 +4,7 @@ import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { TodoStore } from './todo.store';
 import { I18nStore, Lang } from './i18n.store';
+import { PomodoroSettingsStore } from './pomodoro/pomodoro-settings.store';
 import { LabelManagerComponent } from './shared/components/label-manager/label-manager.component';
 
 @Component({
@@ -15,7 +16,8 @@ import { LabelManagerComponent } from './shared/components/label-manager/label-m
 })
 export class AppComponent {
   readonly todoService = inject(TodoStore);
-  readonly i18n = inject(I18nStore);
+  readonly i18n        = inject(I18nStore);
+  readonly pomSettings = inject(PomodoroSettingsStore);
   private readonly router = inject(Router);
 
   isWide = signal(false);

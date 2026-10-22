@@ -67,18 +67,85 @@
 <!-- Settings Modal -->
 <div class="settings-backdrop" *ngIf="settingsOpen()" (click)="closeSettings()"></div>
 <div class="settings-modal" *ngIf="settingsOpen()" role="dialog" [attr.aria-label]="i18n.t('settingsTitle')">
+
   <div class="settings-modal__header">
     <h2 class="settings-modal__title">⚙️ {{ i18n.t('settingsTitle') }}</h2>
     <button class="settings-modal__close" (click)="closeSettings()" [attr.aria-label]="i18n.t('editCancel')">✕</button>
   </div>
-  <div class="settings-modal__body">
-    <app-label-manager></app-label-manager>
-  </div>
-</div>
 
-<!-- Language Switcher — fixed bottom-right, app-wide -->
-<div class="lang-switcher">
-  <button class="lang-btn" [class.lang-btn--active]="i18n.lang() === 'en'" (click)="setLang('en')">EN</button>
-  <button class="lang-btn" [class.lang-btn--active]="i18n.lang() === 'th'" (click)="setLang('th')">ภาษาไทย</button>
-  <button class="lang-btn" [class.lang-btn--active]="i18n.lang() === 'zh'" (click)="setLang('zh')">中文</button>
+  <div class="settings-modal__body">
+
+    <!-- ── Language ─────────────────────────────────────────── -->
+    <div class="settings-section">
+      <div class="settings-section__head">
+        <h3 class="settings-section__title">🌐 {{ i18n.t('settingsLanguage') }}</h3>
+      </div>
+      <div class="settings-section__content">
+        <div class="lang-switcher-inline">
+          <button class="lang-btn-inline" [class.lang-btn-inline--active]="i18n.lang() === 'en'" (click)="setLang('en')">EN</button>
+          <button class="lang-btn-inline" [class.lang-btn-inline--active]="i18n.lang() === 'th'" (click)="setLang('th')">ภาษาไทย</button>
+          <button class="lang-btn-inline" [class.lang-btn-inline--active]="i18n.lang() === 'zh'" (click)="setLang('zh')">中文</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Labels ──────────────────────────────────────────── -->
+    <div class="settings-section">
+      <div class="settings-section__head">
+        <h3 class="settings-section__title">🏷️ {{ i18n.t('labelManagerTitle') }}</h3>
+        <p class="settings-section__desc">{{ i18n.t('labelManagerDesc') }}</p>
+      </div>
+      <div class="settings-section__content settings-section__content--flush">
+        <app-label-manager></app-label-manager>
+      </div>
+    </div>
+
+    <!-- ── Pomodoro Timer ──────────────────────────────────── -->
+    <div class="settings-section">
+      <div class="settings-section__head">
+        <h3 class="settings-section__title">🍅 {{ i18n.t('pomSettingsTitle') }}</h3>
+      </div>
+      <div class="settings-section__content">
+        <div class="pom-setting-row">
+          <label class="pom-setting-row__label" for="set-work">{{ i18n.t('pomWorkDuration') }}</label>
+          <div class="pom-setting-row__control">
+            <button class="pom-step-btn" (click)="pomSettings.setWorkDuration(pomSettings.workDuration() - 1)" [disabled]="pomSettings.workDuration() <= 1">−</button>
+            <input id="set-work" type="number" min="1" max="120"
+              class="pom-setting-input"
+              [value]="pomSettings.workDuration()"
+              (change)="pomSettings.setWorkDuration(+$any($event.target).value)"
+            />
+            <button class="pom-step-btn" (click)="pomSettings.setWorkDuration(pomSettings.workDuration() + 1)" [disabled]="pomSettings.workDuration() >= 120">+</button>
+          </div>
+        </div>
+        <div class="pom-setting-row">
+          <label class="pom-setting-row__label" for="set-short">{{ i18n.t('pomShortBreakDuration') }}</label>
+          <div class="pom-setting-row__control">
+            <button class="pom-step-btn" (click)="pomSettings.setShortBreakDuration(pomSettings.shortBreakDuration() - 1)" [disabled]="pomSettings.shortBreakDuration() <= 1">−</button>
+            <input id="set-short" type="number" min="1" max="60"
+              class="pom-setting-input"
+              [value]="pomSettings.shortBreakDuration()"
+              (change)="pomSettings.setShortBreakDuration(+$any($event.target).value)"
+            />
+            <button class="pom-step-btn" (click)="pomSettings.setShortBreakDuration(pomSettings.shortBreakDuration() + 1)" [disabled]="pomSettings.shortBreakDuration() >= 60">+</button>
+          </div>
+        </div>
+        <div class="pom-setting-row">
+          <label class="pom-setting-row__label" for="set-long">{{ i18n.t('pomLongBreakDuration') }}</label>
+          <div class="pom-setting-row__control">
+            <button class="pom-step-btn" (click)="pomSettings.setLongBreakDuration(pomSettings.longBreakDuration() - 1)" [disabled]="pomSettings.longBreakDuration() <= 1">−</button>
+            <input id="set-long" type="number" min="1" max="60"
+              class="pom-setting-input"
+              [value]="pomSettings.longBreakDuration()"
+              (change)="pomSettings.setLongBreakDuration(+$any($event.target).value)"
+            />
+            <button class="pom-step-btn" (click)="pomSettings.setLongBreakDuration(pomSettings.longBreakDuration() + 1)" [disabled]="pomSettings.longBreakDuration() >= 60">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Add more sections here ──────────────────────────── -->
+
+  </div>
 </div>
