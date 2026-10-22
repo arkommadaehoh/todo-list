@@ -3,6 +3,7 @@
   "tasksRemaining": "剩余 {{count}} 项任务",
   "tabTasks": "📋 任务",
   "tabCalendar": "📅 日历",
+  "tabKanban": "📌 看板",
   "tabPomodoro": "🍅 番茄钟",
 
   "addTaskPlaceholder": "需要做什么？",
@@ -28,6 +29,12 @@
 
   "confirmDelete": "确定要删除这个任务吗？",
   "confirmClearCompleted": "确定要清除所有已完成的任务吗？",
+
+  "kanbanTodo": "待办",
+  "kanbanInProgress": "进行中",
+  "kanbanDone": "已完成",
+  "kanbanEmpty": "将任务拖放到此处",
+  "kanbanAdd": "+ 添加",
 
   "calMonth": "月视图",
   "calDay": "日视图",

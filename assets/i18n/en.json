@@ -3,6 +3,7 @@
   "tasksRemaining": "{{count}} task(s) remaining",
   "tabTasks": "📋 Tasks",
   "tabCalendar": "📅 Calendar",
+  "tabKanban": "📌 Kanban",
   "tabPomodoro": "🍅 Pomodoro",
 
   "addTaskPlaceholder": "What needs to be done?",
@@ -28,6 +29,12 @@
 
   "confirmDelete": "Are you sure you want to delete this task?",
   "confirmClearCompleted": "Are you sure you want to clear all completed tasks?",
+
+  "kanbanTodo": "To Do",
+  "kanbanInProgress": "In Progress",
+  "kanbanDone": "Done",
+  "kanbanEmpty": "Drop tasks here",
+  "kanbanAdd": "+ Add",
 
   "calMonth": "Month",
   "calDay": "Day",
