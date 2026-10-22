@@ -1,0 +1,137 @@
+<!-- Add Form -->
+<form class="add-form" (ngSubmit)="addTodo()">
+  <div class="add-form__inputs">
+    <input
+      class="input input--title"
+      type="text"
+      [placeholder]="i18n.t('addTaskPlaceholder')"
+      [(ngModel)]="newTitle"
+      name="newTitle"
+      autofocus
+    />
+    <app-date-picker
+      [value]="newDueDate"
+      (valueChange)="newDueDate = $event"
+    ></app-date-picker>
+  </div>
+  <button class="btn btn--primary" type="submit" [disabled]="!newTitle.trim()">
+    {{ i18n.t('addTask') }}
+  </button>
+</form>
+
+<!-- Filter Tabs -->
+<div class="filter-tabs">
+  <button class="tab" [class.tab--active]="filter === 'all'" (click)="filter = 'all'">
+    {{ i18n.t('filterAll') }} <span class="badge">{{ todoService.todos().length }}</span>
+  </button>
+  <button class="tab" [class.tab--active]="filter === 'active'" (click)="filter = 'active'">
+    {{ i18n.t('filterActive') }} <span class="badge">{{ todoService.activeTodos().length }}</span>
+  </button>
+  <button class="tab" [class.tab--active]="filter === 'completed'" (click)="filter = 'completed'">
+    {{ i18n.t('filterCompleted') }} <span class="badge">{{ todoService.completedTodos().length }}</span>
+  </button>
+</div>
+
+<!-- Todo List -->
+<ul class="todo-list" *ngIf="filteredTodos.length > 0; else emptyState">
+  <li
+    class="todo-item"
+    *ngFor="let todo of filteredTodos; trackBy: trackById"
+    [class.todo-item--completed]="todo.completed"
+    [class.todo-item--editing]="editingId() === todo.id"
+    [class.todo-item--dragging]="draggingId === todo.id"
+    [class.todo-item--drop-before]="dropTargetId === todo.id && !dropAfter"
+    [class.todo-item--drop-after]="dropTargetId === todo.id && dropAfter"
+    [attr.draggable]="editingId() !== todo.id ? 'true' : null"
+    (dragstart)="onDragStart($event, todo)"
+    (dragover)="onDragOver($event, todo)"
+    (drop)="onDrop($event)"
+    (dragend)="onDragEnd()"
+  >
+
+    <!-- VIEW MODE -->
+    <ng-container *ngIf="editingId() !== todo.id">
+      <label class="todo-check" [title]="todo.completed ? i18n.t('filterCompleted') : i18n.t('filterActive')">
+        <input
+          type="checkbox"
+          [checked]="todo.completed"
+          (change)="toggleComplete(todo.id)"
+        />
+        <span class="checkmark"></span>
+      </label>
+
+      <div class="todo-body">
+        <span class="todo-title" (dblclick)="startEdit(todo)">{{ todo.title }}</span>
+        <span
+          *ngIf="todo.dueDate"
+          class="todo-due"
+          [class.todo-due--overdue]="isOverdue(todo.dueDate) && !todo.completed"
+          [class.todo-due--today]="isDueToday(todo.dueDate) && !todo.completed"
+        >
+          📅 {{ formatDate(todo.dueDate) }}
+          <span *ngIf="isOverdue(todo.dueDate) && !todo.completed" class="due-label due-label--overdue">{{ i18n.t('overdue') }}</span>
+          <span *ngIf="isDueToday(todo.dueDate) && !todo.completed" class="due-label due-label--today">{{ i18n.t('today') }}</span>
+        </span>
+      </div>
+
+      <div class="todo-actions">
+        <button class="btn-icon btn-icon--edit" (click)="startEdit(todo)" title="Edit">✏️</button>
+        <button class="btn-icon btn-icon--delete" (click)="removeTodo(todo.id)" title="Delete">🗑️</button>
+      </div>
+    </ng-container>
+
+    <!-- EDIT MODE -->
+    <ng-container *ngIf="editingId() === todo.id">
+      <form class="edit-form" (ngSubmit)="saveEdit(todo.id)">
+        <div class="edit-form__inputs">
+          <input
+            class="input input--title"
+            type="text"
+            [(ngModel)]="editTitle"
+            name="editTitle"
+            [placeholder]="i18n.t('editPlaceholder')"
+            required
+            autofocus
+          />
+          <app-date-picker
+            [value]="editDueDate"
+            (valueChange)="editDueDate = $event"
+          ></app-date-picker>
+        </div>
+        <div class="edit-form__actions">
+          <button class="btn btn--primary btn--sm" type="submit" [disabled]="!editTitle.trim()">
+            {{ i18n.t('editSave') }}
+          </button>
+          <button class="btn btn--ghost btn--sm" type="button" (click)="cancelEdit()">
+            {{ i18n.t('editCancel') }}
+          </button>
+        </div>
+      </form>
+    </ng-container>
+
+  </li>
+</ul>
+
+<!-- Empty State -->
+<ng-template #emptyState>
+  <div class="empty-state">
+    <span class="empty-state__icon">🎉</span>
+    <p>{{
+      filter === 'completed' ? i18n.t('emptyNoCompleted') :
+      filter === 'active'    ? i18n.t('emptyAllDone') :
+                               i18n.t('emptyNoTasks')
+    }}</p>
+  </div>
+</ng-template>
+
+<!-- Footer -->
+<footer class="list-footer" *ngIf="todoService.todos().length > 0">
+  <span class="footer-count">{{ todoService.activeTodos().length }} {{ i18n.t('footerLeft') }}</span>
+  <button
+    class="btn btn--ghost btn--sm"
+    *ngIf="todoService.completedTodos().length > 0"
+    (click)="clearCompleted()"
+  >
+    {{ i18n.t('clearCompleted', { count: todoService.completedTodos().length }) }}
+  </button>
+</footer>
