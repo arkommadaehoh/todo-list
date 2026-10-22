@@ -174,3 +174,31 @@ $radius:     8px;
     &:hover { opacity: 1; }
   }
 }
+
+/* ─── Inline due + labels row ───────────────────────────────── */
+.card-item__inline {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.label-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.1rem 0.45rem 0.1rem 0.3rem;
+  border-radius: 20px;
+  border: 1.5px solid;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.label-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-block;
+}

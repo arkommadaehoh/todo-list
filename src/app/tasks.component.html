@@ -96,28 +96,29 @@
       <div class="todo-body">
         <span class="todo-title" (dblclick)="startEdit(todo)">{{ todo.title }}</span>
 
-        <!-- Label chips -->
-        <div class="todo-labels" *ngIf="todo.labelIds && todo.labelIds.length > 0">
-          <ng-container *ngFor="let lid of todo.labelIds">
-            <ng-container *ngIf="labelStore.labelMap().get(lid) as lbl">
-              <span class="todo-label-chip" [style.background]="lbl.color + '22'" [style.border-color]="lbl.color">
-                <span class="label-dot" [style.background]="lbl.color"></span>
-                {{ lbl.text }}
-              </span>
+        <!-- Due date + label chips inline -->
+        <div class="todo-meta" *ngIf="todo.dueDate || (todo.labelIds && todo.labelIds.length > 0)">
+          <span
+            *ngIf="todo.dueDate"
+            class="todo-due"
+            [class.todo-due--overdue]="isOverdue(todo.dueDate) && !todo.completed"
+            [class.todo-due--today]="isDueToday(todo.dueDate) && !todo.completed"
+          >
+            📅 {{ formatDate(todo.dueDate) }}
+            <span *ngIf="isOverdue(todo.dueDate) && !todo.completed" class="due-label due-label--overdue">{{ i18n.t('overdue') }}</span>
+            <span *ngIf="isDueToday(todo.dueDate) && !todo.completed" class="due-label due-label--today">{{ i18n.t('today') }}</span>
+          </span>
+          <ng-container *ngIf="todo.labelIds && todo.labelIds.length > 0">
+            <ng-container *ngFor="let lid of todo.labelIds">
+              <ng-container *ngIf="labelStore.labelMap().get(lid) as lbl">
+                <span class="todo-label-chip" [style.background]="lbl.color + '22'" [style.border-color]="lbl.color">
+                  <span class="label-dot" [style.background]="lbl.color"></span>
+                  {{ lbl.text }}
+                </span>
+              </ng-container>
             </ng-container>
           </ng-container>
         </div>
-
-        <span
-          *ngIf="todo.dueDate"
-          class="todo-due"
-          [class.todo-due--overdue]="isOverdue(todo.dueDate) && !todo.completed"
-          [class.todo-due--today]="isDueToday(todo.dueDate) && !todo.completed"
-        >
-          📅 {{ formatDate(todo.dueDate) }}
-          <span *ngIf="isOverdue(todo.dueDate) && !todo.completed" class="due-label due-label--overdue">{{ i18n.t('overdue') }}</span>
-          <span *ngIf="isDueToday(todo.dueDate) && !todo.completed" class="due-label due-label--today">{{ i18n.t('today') }}</span>
-        </span>
       </div>
 
       <div class="todo-actions">

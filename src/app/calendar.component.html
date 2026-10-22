@@ -119,7 +119,19 @@
           <span class="checkmark"></span>
         </label>
         <ng-container *ngIf="editingId() !== todo.id; else editTpl">
-          <span class="day-task__title" [title]="todo.title" (dblclick)="startEdit(todo)">{{ todo.title }}</span>
+          <div class="day-task__body">
+            <span class="day-task__title" [title]="todo.title" (dblclick)="startEdit(todo)">{{ todo.title }}</span>
+            <ng-container *ngIf="todo.labelIds && todo.labelIds.length > 0">
+              <ng-container *ngFor="let lid of todo.labelIds">
+                <ng-container *ngIf="labelStore.labelMap().get(lid) as lbl">
+                  <span class="label-chip" [style.background]="lbl.color + '22'" [style.border-color]="lbl.color">
+                    <span class="label-dot" [style.background]="lbl.color"></span>
+                    {{ lbl.text }}
+                  </span>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+          </div>
           <button class="btn-icon btn-icon--edit" (click)="startEdit(todo)" title="Edit">✏️</button>
           <button class="btn-icon btn-icon--delete" (click)="removeTodo(todo.id)" title="Remove">🗑️</button>
         </ng-container>

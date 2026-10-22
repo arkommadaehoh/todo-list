@@ -47,7 +47,19 @@
           <ng-container *ngIf="editingId !== todo.id; else editTpl">
             <span class="card-item__title">{{ todo.title }}</span>
             <div class="card-item__meta">
-              <span class="card-item__due" *ngIf="todo.dueDate">📅 {{ formatDate(todo.dueDate) }}</span>
+              <div class="card-item__inline">
+                <span class="card-item__due" *ngIf="todo.dueDate">📅 {{ formatDate(todo.dueDate) }}</span>
+                <ng-container *ngIf="todo.labelIds && todo.labelIds.length > 0">
+                  <ng-container *ngFor="let lid of todo.labelIds">
+                    <ng-container *ngIf="labelStore.labelMap().get(lid) as lbl">
+                      <span class="label-chip" [style.background]="lbl.color + '22'" [style.border-color]="lbl.color">
+                        <span class="label-dot" [style.background]="lbl.color"></span>
+                        {{ lbl.text }}
+                      </span>
+                    </ng-container>
+                  </ng-container>
+                </ng-container>
+              </div>
               <button class="card-item__delete" (click)="remove(todo.id)" title="Delete">🗑️</button>
             </div>
           </ng-container>

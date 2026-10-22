@@ -2,6 +2,7 @@ import { Component, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TodoStore } from './todo.store';
+import { LabelStore } from './label.store';
 import { I18nStore } from './i18n.store';
 import { Todo, TodoStatus } from './todo.model';
 import { DatePickerComponent } from './date-picker.component';
@@ -20,6 +21,7 @@ interface Column {
 })
 export class KanbanComponent {
   readonly todoService = inject(TodoStore);
+  readonly labelStore = inject(LabelStore);
   readonly i18n = inject(I18nStore);
 
   readonly columns: Column[] = [

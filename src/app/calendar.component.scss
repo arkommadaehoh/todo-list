@@ -332,8 +332,16 @@ $radius-sm:    6px;
   }
 }
 
-.day-task__title {
+.day-task__body {
   flex: 1;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.day-task__title {
   font-size: 0.93rem;
   font-weight: 500;
   color: $text;
@@ -341,6 +349,27 @@ $radius-sm:    6px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* ─── Shared label chip (calendar day & kanban) ─────────────── */
+.label-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.1rem 0.45rem 0.1rem 0.3rem;
+  border-radius: 20px;
+  border: 1.5px solid;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: $text;
+}
+
+.label-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-block;
 }
 
 .day-task__edit {
