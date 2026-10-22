@@ -68,6 +68,7 @@
   "pomBreakShort": "短休息",
 
   "settingsTitle": "设置",
+  "settingsLanguage": "语言",
   "labelManagerTitle": "标签管理",
   "labelManagerDesc": "创建和管理标签，让任务井井有条。",
   "labelNamePlaceholder": "标签名称…",

@@ -68,6 +68,7 @@
   "pomBreakShort": "short",
 
   "settingsTitle": "Settings",
+  "settingsLanguage": "Language",
   "labelManagerTitle": "Label Manager",
   "labelManagerDesc": "Create and manage labels to organise your tasks.",
   "labelNamePlaceholder": "Label name…",
