@@ -1,5 +1,5 @@
 {
-  "appTitle": "My Todo List",
+  "appTitle": "My Tasks",
   "tasksRemaining": "{{count}} task(s) remaining",
   "tabTasks": "📋 Tasks",
   "tabCalendar": "📅 Calendar",
