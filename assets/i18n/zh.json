@@ -1,5 +1,5 @@
 {
-  "appTitle": "我的待办事项",
+  "appTitle": "我的任务",
   "tasksRemaining": "剩余 {{count}} 项任务",
   "tabTasks": "📋 任务",
   "tabCalendar": "📅 日历",
