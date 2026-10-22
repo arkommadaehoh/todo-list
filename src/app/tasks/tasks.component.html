@@ -40,7 +40,6 @@
             (change)="toggleNewLabel(lbl.id)"
           />
           <span class="label-option__chip" [style.background]="lbl.color + '22'" [style.border-color]="lbl.color">
-            <span class="label-dot" [style.background]="lbl.color"></span>
             {{ lbl.text }}
           </span>
         </label>
@@ -112,7 +111,6 @@
             <ng-container *ngFor="let lid of todo.labelIds">
               <ng-container *ngIf="labelStore.labelMap().get(lid) as lbl">
                 <span class="todo-label-chip" [style.background]="lbl.color + '22'" [style.border-color]="lbl.color">
-                  <span class="label-dot" [style.background]="lbl.color"></span>
                   {{ lbl.text }}
                 </span>
               </ng-container>
@@ -170,7 +168,6 @@
                   (change)="toggleEditLabel(lbl.id)"
                 />
                 <span class="label-option__chip" [style.background]="lbl.color + '22'" [style.border-color]="lbl.color">
-                  <span class="label-dot" [style.background]="lbl.color"></span>
                   {{ lbl.text }}
                 </span>
               </label>

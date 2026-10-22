@@ -425,8 +425,7 @@ $radius-sm:    6px;
   .label-option__chip {
     display: inline-flex;
     align-items: center;
-    gap: 0.3rem;
-    padding: 0.15rem 0.55rem 0.15rem 0.35rem;
+    padding: 0.15rem 0.55rem;
     border-radius: 20px;
     border: 1.5px solid;
     font-size: 0.78rem;
@@ -455,8 +454,7 @@ $radius-sm:    6px;
 .todo-label-chip {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  padding: 0.1rem 0.5rem 0.1rem 0.35rem;
+  padding: 0.1rem 0.5rem;
   border-radius: 20px;
   border: 1.5px solid;
   font-size: 0.75rem;
