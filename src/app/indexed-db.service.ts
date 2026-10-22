@@ -32,7 +32,7 @@ export class IndexedDbService {
     });
   }
 
-  /** Load all todos from the store, ordered by id. */
+  /** Load all todos from the store, in saved order (falls back to id for older records). */
   loadAll(): Promise<Todo[]> {
     return new Promise((resolve, reject) => {
       const tx    = this.db!.transaction(STORE_NAME, 'readonly');
@@ -40,7 +40,7 @@ export class IndexedDbService {
       const req   = store.getAll();
 
       req.onsuccess = () =>
-        resolve((req.result as Todo[]).sort((a, b) => a.id - b.id));
+        resolve((req.result as Todo[]).sort((a, b) => (a.order ?? a.id) - (b.order ?? b.id)));
       req.onerror   = () => reject(req.error);
     });
   }
@@ -52,9 +52,7 @@ export class IndexedDbService {
       const store = tx.objectStore(STORE_NAME);
 
       store.clear();
-      for (const todo of todos) {
-        store.put(todo);
-      }
+      todos.forEach((todo, order) => store.put({ ...todo, order }));
 
       tx.oncomplete = () => resolve();
       tx.onerror    = () => reject(tx.error);

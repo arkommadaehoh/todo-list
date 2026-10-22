@@ -1,5 +1,5 @@
 import { Injectable, computed, inject } from '@angular/core';
-import { TodoService } from './todo.service';
+import { TodoStore } from './todo.store';
 import { Todo } from './todo.model';
 
 export interface CalendarDay {
@@ -12,7 +12,7 @@ export interface CalendarDay {
 
 @Injectable({ providedIn: 'root' })
 export class CalendarService {
-  private todoService = inject(TodoService);
+  private todoService = inject(TodoStore);
 
   /** Map of dateStr -> todos for fast lookup */
   readonly todosByDate = computed(() => {

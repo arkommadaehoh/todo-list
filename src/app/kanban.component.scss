@@ -1,0 +1,130 @@
+$primary:    #4f46e5;
+$text:       #111827;
+$text-muted: #6b7280;
+$border:     #e5e7eb;
+$surface:    #f9fafb;
+$white:      #ffffff;
+$radius:     8px;
+
+.kanban { padding: 1.25rem 1.5rem 1.5rem; }
+
+.kanban-add {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.1rem;
+
+  &__input {
+    flex: 1;
+    min-width: 160px;
+    padding: 0.55rem 0.8rem;
+    border: 1.5px solid $border;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    &:focus { outline: none; border-color: $primary; }
+  }
+
+  &__btn {
+    background: $primary;
+    color: $white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.55rem 1rem;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    &:disabled { opacity: 0.5; cursor: not-allowed; }
+  }
+}
+
+.kanban-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.9rem;
+  align-items: start;
+
+  @media (max-width: 640px) { grid-template-columns: 1fr; }
+}
+
+.column {
+  background: $surface;
+  border: 1.5px solid $border;
+  border-radius: $radius;
+  min-height: 280px;
+  transition: border-color 0.14s, background 0.14s;
+
+  &--over { border-color: $primary; background: #eef2ff; }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.65rem 0.85rem;
+    font-weight: 700;
+    font-size: 0.88rem;
+    border-bottom: 1px solid $border;
+    border-top: 3px solid $text-muted;
+    border-radius: $radius $radius 0 0;
+
+    &--todo        { border-top-color: #6b7280; }
+    &--in-progress { border-top-color: #d97706; }
+    &--done        { border-top-color: #16a34a; }
+  }
+
+  &__count {
+    background: $border;
+    border-radius: 999px;
+    padding: 0 0.55rem;
+    font-size: 0.75rem;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 0.65rem;
+    min-height: 220px;
+  }
+
+  &__empty {
+    color: $text-muted;
+    font-size: 0.8rem;
+    text-align: center;
+    margin-top: 1rem;
+  }
+}
+
+.card-item {
+  background: $white;
+  border: 1px solid $border;
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+  cursor: grab;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+  &:active { cursor: grabbing; }
+  &--dragging { opacity: 0.4; }
+  &--drop-before { box-shadow: 0 -3px 0 $primary; }
+  &--drop-after  { box-shadow: 0 3px 0 $primary; }
+
+  &__title { font-size: 0.9rem; word-break: break-word; }
+
+  &__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.35rem;
+    font-size: 0.75rem;
+    color: $text-muted;
+  }
+
+  &__delete {
+    background: none;
+    border: none;
+    cursor: pointer;
+    opacity: 0.6;
+    margin-left: auto;
+    &:hover { opacity: 1; }
+  }
+}

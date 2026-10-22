@@ -3,26 +3,27 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { TodoService } from './todo.service';
-import { I18nService, Lang } from './i18n.service';
+import { TodoStore } from './todo.store';
+import { I18nStore, Lang } from './i18n.store';
 import { Todo } from './todo.model';
 import { CalendarComponent } from './calendar.component';
 import { DatePickerComponent } from './date-picker.component';
+import { KanbanComponent } from './kanban.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, CalendarComponent, DatePickerComponent],
+  imports: [CommonModule, FormsModule, RouterModule, CalendarComponent, KanbanComponent, DatePickerComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  readonly todoService = inject(TodoService);
-  readonly i18n = inject(I18nService);
+  readonly todoService = inject(TodoStore);
+  readonly i18n = inject(I18nStore);
   private readonly router = inject(Router);
 
   // Top-level tab
-  activeTab: 'todos' | 'calendar' | 'pomodoro' = 'todos';
+  activeTab: 'todos' | 'kanban' | 'calendar' | 'pomodoro' = 'todos';
 
   constructor() {
     this.syncTabWithUrl(this.router.url);
@@ -41,7 +42,7 @@ export class AppComponent {
     }
   }
 
-  switchTab(tab: 'todos' | 'calendar' | 'pomodoro'): void {
+  switchTab(tab: 'todos' | 'kanban' | 'calendar' | 'pomodoro'): void {
     this.activeTab = tab;
     if (tab === 'pomodoro') {
       this.router.navigate(['/pomodoro']);
@@ -125,6 +126,39 @@ export class AppComponent {
   clearCompleted(): void {
     if (!confirm(this.i18n.t('confirmClearCompleted'))) return;
     this.todoService.completedTodos().forEach(t => this.todoService.remove(t.id));
+  }
+
+  // Drag-to-reorder state
+  draggingId: number | null = null;
+  dropTargetId: number | null = null;
+  dropAfter = false;
+
+  onDragStart(event: DragEvent, todo: Todo): void {
+    this.draggingId = todo.id;
+    event.dataTransfer!.effectAllowed = 'move';
+    event.dataTransfer!.setData('text/plain', String(todo.id));
+  }
+
+  onDragOver(event: DragEvent, todo: Todo): void {
+    if (this.draggingId === null) return;
+    event.preventDefault();
+    if (this.draggingId === todo.id) { this.dropTargetId = null; return; }
+    const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+    this.dropTargetId = todo.id;
+    this.dropAfter = event.clientY > rect.top + rect.height / 2;
+  }
+
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    if (this.draggingId !== null && this.dropTargetId !== null) {
+      this.todoService.move(this.draggingId, this.dropTargetId, this.dropAfter);
+    }
+    this.onDragEnd();
+  }
+
+  onDragEnd(): void {
+    this.draggingId = null;
+    this.dropTargetId = null;
   }
 
   trackById(_: number, todo: Todo): number {

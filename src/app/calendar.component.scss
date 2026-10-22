@@ -129,7 +129,7 @@ $radius-sm:    6px;
 
 .cal-weekdays {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   border-bottom: 1px solid $border;
 
   .wd {
@@ -145,7 +145,7 @@ $radius-sm:    6px;
 
 .cal-grid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   grid-template-rows: repeat(6, 1fr);
   flex: 1;
   overflow: hidden;
@@ -337,7 +337,10 @@ $radius-sm:    6px;
   font-size: 0.93rem;
   font-weight: 500;
   color: $text;
-  word-break: break-word;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ─── Empty day ─────────────────────────────────────────────── */

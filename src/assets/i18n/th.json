@@ -3,6 +3,7 @@
   "tasksRemaining": "เหลืออีก {{count}} รายการ",
   "tabTasks": "📋 งาน",
   "tabCalendar": "📅 ปฏิทิน",
+  "tabKanban": "📌 คัมบัง",
   "tabPomodoro": "🍅 โปโมโดโร",
 
   "addTaskPlaceholder": "ต้องทำอะไร?",
@@ -28,6 +29,12 @@
 
   "confirmDelete": "ต้องการลบงานนี้ใช่ไหม?",
   "confirmClearCompleted": "ต้องการลบงานที่เสร็จทั้งหมดใช่ไหม?",
+
+  "kanbanTodo": "ต้องทำ",
+  "kanbanInProgress": "กำลังทำ",
+  "kanbanDone": "เสร็จแล้ว",
+  "kanbanEmpty": "ลากงานมาวางที่นี่",
+  "kanbanAdd": "+ เพิ่ม",
 
   "calMonth": "เดือน",
   "calDay": "วัน",

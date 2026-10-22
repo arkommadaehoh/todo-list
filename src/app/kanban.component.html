@@ -1,0 +1,59 @@
+<div class="kanban">
+  <form class="kanban-add" (ngSubmit)="add()">
+    <input
+      class="kanban-add__input"
+      type="text"
+      name="kanbanTitle"
+      [placeholder]="i18n.t('addTaskPlaceholder')"
+      [(ngModel)]="newTitle"
+    />
+    <app-date-picker
+      [value]="newDueDate"
+      (valueChange)="newDueDate = $event"
+    ></app-date-picker>
+    <button class="kanban-add__btn" type="submit" [disabled]="!newTitle.trim()">
+      {{ i18n.t('kanbanAdd') }}
+    </button>
+  </form>
+
+  <div class="kanban-board">
+    <section
+      class="column"
+      *ngFor="let col of columns"
+      [class.column--over]="dragOverStatus === col.status"
+      (dragover)="onDragOver($event, col.status)"
+      (dragleave)="onDragLeave(col.status)"
+      (drop)="onDrop($event, col.status)"
+    >
+      <header class="column__header column__header--{{ col.status }}">
+        <span class="column__title">{{ i18n.t(col.labelKey) }}</span>
+        <span class="column__count">{{ byStatus()[col.status].length }}</span>
+      </header>
+
+      <div class="column__body">
+        <article
+          class="card-item"
+          *ngFor="let todo of byStatus()[col.status]; trackBy: trackById"
+          draggable="true"
+          [class.card-item--dragging]="draggingId === todo.id"
+          [class.card-item--drop-before]="dropTargetId === todo.id && !dropAfter"
+          [class.card-item--drop-after]="dropTargetId === todo.id && dropAfter"
+          (dragover)="onCardDragOver($event, todo)"
+          (drop)="onCardDrop($event, todo)"
+          (dragstart)="onDragStart($event, todo)"
+          (dragend)="onDragEnd()"
+        >
+          <span class="card-item__title">{{ todo.title }}</span>
+          <div class="card-item__meta">
+            <span class="card-item__due" *ngIf="todo.dueDate">📅 {{ formatDate(todo.dueDate) }}</span>
+            <button class="card-item__delete" (click)="remove(todo.id)" title="Delete">🗑️</button>
+          </div>
+        </article>
+
+        <p class="column__empty" *ngIf="byStatus()[col.status].length === 0">
+          {{ i18n.t('kanbanEmpty') }}
+        </p>
+      </div>
+    </section>
+  </div>
+</div>

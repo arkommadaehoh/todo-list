@@ -1,5 +1,5 @@
 <div class="app-wrapper">
-  <div class="card" [class.card--wide]="activeTab === 'calendar'">
+  <div class="card" [class.card--wide]="activeTab === 'calendar' || activeTab === 'kanban'">
     <!-- Header -->
     <header class="app-header">
       <div class="app-header__top">
@@ -23,6 +23,13 @@
           </button>
           <button
             class="main-tab"
+            [class.main-tab--active]="activeTab === 'kanban'"
+            (click)="switchTab('kanban')"
+          >
+            {{ i18n.t('tabKanban') }}
+          </button>
+          <button
+            class="main-tab"
             [class.main-tab--active]="activeTab === 'calendar'"
             (click)="switchTab('calendar')"
           >
@@ -38,6 +45,9 @@
         </div>
       </div>
     </header>
+
+    <!-- ══ KANBAN VIEW ══ -->
+    <app-kanban *ngIf="activeTab === 'kanban'"></app-kanban>
 
     <!-- ══ CALENDAR VIEW ══ -->
     <app-calendar *ngIf="activeTab === 'calendar'"></app-calendar>
@@ -89,6 +99,14 @@
         *ngFor="let todo of filteredTodos; trackBy: trackById"
         [class.todo-item--completed]="todo.completed"
         [class.todo-item--editing]="editingId() === todo.id"
+        [class.todo-item--dragging]="draggingId === todo.id"
+        [class.todo-item--drop-before]="dropTargetId === todo.id && !dropAfter"
+        [class.todo-item--drop-after]="dropTargetId === todo.id && dropAfter"
+        [attr.draggable]="editingId() !== todo.id ? 'true' : null"
+        (dragstart)="onDragStart($event, todo)"
+        (dragover)="onDragOver($event, todo)"
+        (drop)="onDrop($event)"
+        (dragend)="onDragEnd()"
       >
 
         <!-- VIEW MODE -->

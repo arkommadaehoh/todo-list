@@ -1,7 +1,7 @@
 import { Component, OnDestroy, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { I18nService } from '../i18n.service';
+import { I18nStore } from '../i18n.store';
 
 type PomodoroMode = 'work' | 'shortBreak' | 'longBreak';
 
@@ -13,7 +13,7 @@ type PomodoroMode = 'work' | 'shortBreak' | 'longBreak';
   styleUrls: ['./pomodoro.component.scss']
 })
 export class PomodoroComponent implements OnDestroy {
-  readonly i18n = inject(I18nService);
+  readonly i18n = inject(I18nStore);
 
   /**
    * Reactive translation lookup. Reads i18n.lang() so Angular tracks it as

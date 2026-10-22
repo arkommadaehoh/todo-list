@@ -4,8 +4,8 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CalendarService, CalendarDay } from './calendar.service';
-import { TodoService } from './todo.service';
-import { I18nService } from './i18n.service';
+import { TodoStore } from './todo.store';
+import { I18nStore } from './i18n.store';
 import { Todo } from './todo.model';
 
 type CalView = 'month' | 'day';
@@ -25,8 +25,8 @@ const WEEKDAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 })
 export class CalendarComponent implements OnInit {
   private calService  = inject(CalendarService);
-  readonly todoService = inject(TodoService);
-  readonly i18n = inject(I18nService);
+  readonly todoService = inject(TodoStore);
+  readonly i18n = inject(I18nStore);
 
   // ── View state ───────────────────────────────────────────────
   calView   = signal<CalView>('month');

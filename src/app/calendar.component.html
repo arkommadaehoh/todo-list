@@ -118,7 +118,7 @@
           <input type="checkbox" [checked]="todo.completed" (change)="toggleComplete(todo.id)" />
           <span class="checkmark"></span>
         </label>
-        <span class="day-task__title">{{ todo.title }}</span>
+        <span class="day-task__title" [title]="todo.title">{{ todo.title }}</span>
         <button class="btn-icon btn-icon--delete" (click)="removeTodo(todo.id)" title="Remove">🗑️</button>
       </div>
     </div>

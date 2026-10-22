@@ -1,10 +1,10 @@
 import { ApplicationConfig, APP_INITIALIZER } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { TodoService } from './todo.service';
-import { I18nService } from './i18n.service';
+import { TodoStore } from './todo.store';
+import { I18nStore } from './i18n.store';
 import { routes } from './app.routes';
 
-function initApp(todoService: TodoService, i18n: I18nService): () => Promise<void> {
+function initApp(todoService: InstanceType<typeof TodoStore>, i18n: InstanceType<typeof I18nStore>): () => Promise<void> {
   return async () => {
     await Promise.all([todoService.init(), i18n.setLang(i18n.getSavedLang())]);
   };
@@ -16,7 +16,7 @@ export const appConfig: ApplicationConfig = {
     {
       provide: APP_INITIALIZER,
       useFactory: initApp,
-      deps: [TodoService, I18nService],
+      deps: [TodoStore, I18nStore],
       multi: true,
     },
   ],
