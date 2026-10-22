@@ -121,7 +121,7 @@
           </label>
 
           <div class="todo-body">
-            <span class="todo-title">{{ todo.title }}</span>
+            <span class="todo-title" (dblclick)="startEdit(todo)">{{ todo.title }}</span>
             <span
               *ngIf="todo.dueDate"
               class="todo-due"

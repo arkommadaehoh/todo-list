@@ -40,12 +40,36 @@ export class KanbanComponent {
   dragOverStatus: TodoStatus | null = null;
   dropTargetId: number | null = null;
   dropAfter = false;
+  editingId: number | null = null;
+  editTitle = '';
+  editDueDate = '';
 
   add(): void {
     if (!this.newTitle.trim()) return;
     this.todoService.add(this.newTitle, this.newDueDate || null);
     this.newTitle = '';
     this.newDueDate = this.todayStr();
+  }
+
+  startEdit(todo: Todo): void {
+    this.editingId = todo.id;
+    this.editTitle = todo.title;
+    this.editDueDate = todo.dueDate ?? '';
+  }
+
+  saveEdit(id: number): void {
+    if (!this.editTitle.trim()) return;
+    this.todoService.update(id, {
+      title: this.editTitle.trim(),
+      dueDate: this.editDueDate || null
+    });
+    this.cancelEdit();
+  }
+
+  cancelEdit(): void {
+    this.editingId = null;
+    this.editTitle = '';
+    this.editDueDate = '';
   }
 
   onDragStart(event: DragEvent, todo: Todo): void {

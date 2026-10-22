@@ -149,6 +149,26 @@ export class CalendarComponent implements OnInit {
     this.quickTitle = '';
   }
 
+  // ── Edit task title directly from day view ────────────────────
+  editingId = signal<number | null>(null);
+  editTitle = '';
+
+  startEdit(todo: Todo): void {
+    this.editingId.set(todo.id);
+    this.editTitle = todo.title;
+  }
+
+  saveEdit(id: number): void {
+    if (!this.editTitle.trim()) return;
+    this.todoService.update(id, { title: this.editTitle.trim() });
+    this.cancelEdit();
+  }
+
+  cancelEdit(): void {
+    this.editingId.set(null);
+    this.editTitle = '';
+  }
+
   // ── Toggle complete directly from calendar ────────────────────
   toggleComplete(id: number): void {
     this.todoService.toggleComplete(id);

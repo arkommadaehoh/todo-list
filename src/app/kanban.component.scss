@@ -119,6 +119,52 @@ $radius:     8px;
     color: $text-muted;
   }
 
+  &__edit {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__edit-input {
+    border: 1.5px solid $border;
+    border-radius: 6px;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.9rem;
+    font-family: inherit;
+    outline: none;
+
+    &:focus {
+      border-color: $primary;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+    }
+  }
+
+  &__edit-actions {
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  &__btn {
+    background: $white;
+    color: $text-muted;
+    border: 1px solid $border;
+    border-radius: 6px;
+    padding: 0.3rem 0.7rem;
+    font-size: 0.8rem;
+    font-family: inherit;
+    cursor: pointer;
+
+    &:hover { background: $surface; }
+
+    &--primary {
+      background: $primary;
+      border-color: $primary;
+      color: $white;
+      &:hover:not(:disabled) { background: $primary; opacity: 0.9; }
+      &:disabled { opacity: 0.45; cursor: not-allowed; }
+    }
+  }
+
   &__delete {
     background: none;
     border: none;

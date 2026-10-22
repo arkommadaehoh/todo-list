@@ -34,20 +34,49 @@
         <article
           class="card-item"
           *ngFor="let todo of byStatus()[col.status]; trackBy: trackById"
-          draggable="true"
+          [attr.draggable]="editingId !== todo.id ? 'true' : null"
           [class.card-item--dragging]="draggingId === todo.id"
           [class.card-item--drop-before]="dropTargetId === todo.id && !dropAfter"
           [class.card-item--drop-after]="dropTargetId === todo.id && dropAfter"
+          (dblclick)="editingId !== todo.id && startEdit(todo)"
           (dragover)="onCardDragOver($event, todo)"
           (drop)="onCardDrop($event, todo)"
           (dragstart)="onDragStart($event, todo)"
           (dragend)="onDragEnd()"
         >
-          <span class="card-item__title">{{ todo.title }}</span>
-          <div class="card-item__meta">
-            <span class="card-item__due" *ngIf="todo.dueDate">📅 {{ formatDate(todo.dueDate) }}</span>
-            <button class="card-item__delete" (click)="remove(todo.id)" title="Delete">🗑️</button>
-          </div>
+          <ng-container *ngIf="editingId !== todo.id; else editTpl">
+            <span class="card-item__title">{{ todo.title }}</span>
+            <div class="card-item__meta">
+              <span class="card-item__due" *ngIf="todo.dueDate">📅 {{ formatDate(todo.dueDate) }}</span>
+              <button class="card-item__delete" (click)="remove(todo.id)" title="Delete">🗑️</button>
+            </div>
+          </ng-container>
+          <ng-template #editTpl>
+            <form class="card-item__edit" (ngSubmit)="saveEdit(todo.id)">
+              <input
+                class="card-item__edit-input"
+                type="text"
+                name="editTitle"
+                [(ngModel)]="editTitle"
+                [placeholder]="i18n.t('editPlaceholder')"
+                (keydown.escape)="cancelEdit()"
+                required
+                autofocus
+              />
+              <app-date-picker
+                [value]="editDueDate"
+                (valueChange)="editDueDate = $event"
+              ></app-date-picker>
+              <div class="card-item__edit-actions">
+                <button class="card-item__btn card-item__btn--primary" type="submit" [disabled]="!editTitle.trim()">
+                  {{ i18n.t('editSave') }}
+                </button>
+                <button class="card-item__btn" type="button" (click)="cancelEdit()">
+                  {{ i18n.t('editCancel') }}
+                </button>
+              </div>
+            </form>
+          </ng-template>
         </article>
 
         <p class="column__empty" *ngIf="byStatus()[col.status].length === 0">

@@ -118,8 +118,31 @@
           <input type="checkbox" [checked]="todo.completed" (change)="toggleComplete(todo.id)" />
           <span class="checkmark"></span>
         </label>
-        <span class="day-task__title" [title]="todo.title">{{ todo.title }}</span>
-        <button class="btn-icon btn-icon--delete" (click)="removeTodo(todo.id)" title="Remove">🗑️</button>
+        <ng-container *ngIf="editingId() !== todo.id; else editTpl">
+          <span class="day-task__title" [title]="todo.title" (dblclick)="startEdit(todo)">{{ todo.title }}</span>
+          <button class="btn-icon btn-icon--edit" (click)="startEdit(todo)" title="Edit">✏️</button>
+          <button class="btn-icon btn-icon--delete" (click)="removeTodo(todo.id)" title="Remove">🗑️</button>
+        </ng-container>
+        <ng-template #editTpl>
+          <form class="day-task__edit" (ngSubmit)="saveEdit(todo.id)">
+            <input
+              class="day-task__edit-input"
+              type="text"
+              [(ngModel)]="editTitle"
+              name="editTitle"
+              [placeholder]="i18n.t('editPlaceholder')"
+              (keydown.escape)="cancelEdit()"
+              required
+              autofocus
+            />
+            <button class="btn btn--primary btn--sm" type="submit" [disabled]="!editTitle.trim()">
+              {{ i18n.t('editSave') }}
+            </button>
+            <button class="btn btn--ghost btn--sm" type="button" (click)="cancelEdit()">
+              {{ i18n.t('editCancel') }}
+            </button>
+          </form>
+        </ng-template>
       </div>
     </div>
 
