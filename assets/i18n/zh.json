@@ -65,5 +65,17 @@
   "pomAlertFocusDone": "🎉 专注结束！是时候{{break}}了。",
   "pomAlertBreakDone": "⏰ 休息结束！准备好重新专注了吗？",
   "pomBreakLong": "长休息",
-  "pomBreakShort": "短休息"
+  "pomBreakShort": "短休息",
+
+  "settingsTitle": "设置",
+  "labelManagerTitle": "标签管理",
+  "labelManagerDesc": "创建和管理标签，让任务井井有条。",
+  "labelNamePlaceholder": "标签名称…",
+  "labelColorPicker": "选择颜色",
+  "labelAdd": "+ 添加标签",
+  "labelEdit": "重命名 / 换色",
+  "labelDelete": "删除标签",
+  "labelEmpty": "还没有标签，在上方添加一个吧！",
+  "labelConfirmDelete": "删除此标签？它将从所有任务中移除。",
+  "labelPickerTitle": "添加标签"
 }

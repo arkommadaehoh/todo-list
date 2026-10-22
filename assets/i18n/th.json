@@ -65,5 +65,17 @@
   "pomAlertFocusDone": "🎉 โฟกัสเสร็จแล้ว! ถึงเวลา{{break}}",
   "pomAlertBreakDone": "⏰ หมดเวลาพัก! พร้อมกลับมาโฟกัสอีกครั้ง?",
   "pomBreakLong": "พักยาว",
-  "pomBreakShort": "พักสั้น"
+  "pomBreakShort": "พักสั้น",
+
+  "settingsTitle": "การตั้งค่า",
+  "labelManagerTitle": "จัดการป้ายกำกับ",
+  "labelManagerDesc": "สร้างและจัดการป้ายกำกับเพื่อจัดระเบียบงานของคุณ",
+  "labelNamePlaceholder": "ชื่อป้ายกำกับ…",
+  "labelColorPicker": "เลือกสี",
+  "labelAdd": "+ เพิ่มป้าย",
+  "labelEdit": "เปลี่ยนชื่อ / สี",
+  "labelDelete": "ลบป้ายกำกับ",
+  "labelEmpty": "ยังไม่มีป้ายกำกับ เพิ่มด้านบนได้เลย!",
+  "labelConfirmDelete": "ลบป้ายกำกับนี้? มันจะถูกลบออกจากทุกงาน",
+  "labelPickerTitle": "เพิ่มป้ายกำกับ"
 }
