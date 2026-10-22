@@ -1,11 +1,11 @@
 import { Component, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TodoStore } from './todo.store';
-import { LabelStore } from './label.store';
-import { I18nStore } from './i18n.store';
-import { Todo, TodoStatus } from './todo.model';
-import { DatePickerComponent } from './date-picker.component';
+import { TodoStore } from '../todo.store';
+import { LabelStore } from '../label.store';
+import { I18nStore } from '../i18n.store';
+import { Todo, TodoStatus } from '../todo.model';
+import { DatePickerComponent } from '../shared/components/date-picker/date-picker.component';
 
 interface Column {
   status: TodoStatus;

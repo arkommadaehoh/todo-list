@@ -1,9 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LabelStore, LABEL_COLORS } from './label.store';
-import { I18nStore } from './i18n.store';
-import { Label } from './todo.model';
+import { LabelStore, LABEL_COLORS } from '../../../label.store';
+import { I18nStore } from '../../../i18n.store';
+import { Label } from '../../../todo.model';
 
 @Component({
   selector: 'app-label-manager',

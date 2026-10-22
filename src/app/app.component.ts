@@ -4,7 +4,7 @@ import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { TodoStore } from './todo.store';
 import { I18nStore, Lang } from './i18n.store';
-import { LabelManagerComponent } from './label-manager.component';
+import { LabelManagerComponent } from './shared/components/label-manager/label-manager.component';
 
 @Component({
   selector: 'app-root',

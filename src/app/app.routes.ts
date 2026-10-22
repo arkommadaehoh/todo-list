@@ -8,15 +8,15 @@ export const routes: Routes = [
   },
   {
     path: 'tasks',
-    loadComponent: () => import('./tasks.component').then(m => m.TasksComponent)
+    loadComponent: () => import('./tasks/tasks.component').then(m => m.TasksComponent)
   },
   {
     path: 'kanban',
-    loadComponent: () => import('./kanban.component').then(m => m.KanbanComponent)
+    loadComponent: () => import('./kanban/kanban.component').then(m => m.KanbanComponent)
   },
   {
     path: 'calendar',
-    loadComponent: () => import('./calendar.component').then(m => m.CalendarComponent)
+    loadComponent: () => import('./calendar/calendar.component').then(m => m.CalendarComponent)
   },
   {
     path: 'pomodoro',

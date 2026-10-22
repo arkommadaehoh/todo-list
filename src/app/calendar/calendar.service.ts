@@ -1,6 +1,6 @@
 import { Injectable, computed, inject } from '@angular/core';
-import { TodoStore } from './todo.store';
-import { Todo } from './todo.model';
+import { TodoStore } from '../todo.store';
+import { Todo } from '../todo.model';
 
 export interface CalendarDay {
   date: Date;

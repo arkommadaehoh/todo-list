@@ -4,10 +4,10 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CalendarService, CalendarDay } from './calendar.service';
-import { TodoStore } from './todo.store';
-import { LabelStore } from './label.store';
-import { I18nStore } from './i18n.store';
-import { Todo } from './todo.model';
+import { TodoStore } from '../todo.store';
+import { LabelStore } from '../label.store';
+import { I18nStore } from '../i18n.store';
+import { Todo } from '../todo.model';
 
 type CalView = 'month' | 'day';
 
