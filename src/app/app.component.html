@@ -12,43 +12,67 @@
           </p>
         </div>
 
-        <!-- Tab switcher (Router Links) -->
-        <nav class="main-tabs">
-          <a
-            class="main-tab"
-            routerLink="/tasks"
-            routerLinkActive="main-tab--active"
+        <div class="header-right">
+          <!-- Tab switcher (Router Links) -->
+          <nav class="main-tabs">
+            <a
+              class="main-tab"
+              routerLink="/tasks"
+              routerLinkActive="main-tab--active"
+            >
+              {{ i18n.t('tabTasks') }}
+            </a>
+            <a
+              class="main-tab"
+              routerLink="/kanban"
+              routerLinkActive="main-tab--active"
+            >
+              {{ i18n.t('tabKanban') }}
+            </a>
+            <a
+              class="main-tab"
+              routerLink="/calendar"
+              routerLinkActive="main-tab--active"
+            >
+              {{ i18n.t('tabCalendar') }}
+            </a>
+            <a
+              class="main-tab"
+              routerLink="/pomodoro"
+              routerLinkActive="main-tab--active"
+            >
+              {{ i18n.t('tabPomodoro') }}
+            </a>
+          </nav>
+
+          <!-- Settings gear button -->
+          <button
+            class="gear-btn"
+            (click)="openSettings()"
+            [title]="i18n.t('settingsTitle')"
+            [attr.aria-label]="i18n.t('settingsTitle')"
           >
-            {{ i18n.t('tabTasks') }}
-          </a>
-          <a
-            class="main-tab"
-            routerLink="/kanban"
-            routerLinkActive="main-tab--active"
-          >
-            {{ i18n.t('tabKanban') }}
-          </a>
-          <a
-            class="main-tab"
-            routerLink="/calendar"
-            routerLinkActive="main-tab--active"
-          >
-            {{ i18n.t('tabCalendar') }}
-          </a>
-          <a
-            class="main-tab"
-            routerLink="/pomodoro"
-            routerLinkActive="main-tab--active"
-          >
-            {{ i18n.t('tabPomodoro') }}
-          </a>
-        </nav>
+            ⚙️
+          </button>
+        </div>
       </div>
     </header>
 
     <!-- Routed Views -->
     <router-outlet></router-outlet>
 
+  </div>
+</div>
+
+<!-- Settings Modal -->
+<div class="settings-backdrop" *ngIf="settingsOpen()" (click)="closeSettings()"></div>
+<div class="settings-modal" *ngIf="settingsOpen()" role="dialog" [attr.aria-label]="i18n.t('settingsTitle')">
+  <div class="settings-modal__header">
+    <h2 class="settings-modal__title">⚙️ {{ i18n.t('settingsTitle') }}</h2>
+    <button class="settings-modal__close" (click)="closeSettings()" [attr.aria-label]="i18n.t('editCancel')">✕</button>
+  </div>
+  <div class="settings-modal__body">
+    <app-label-manager></app-label-manager>
   </div>
 </div>
 

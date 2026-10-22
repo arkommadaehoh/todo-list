@@ -13,6 +13,39 @@
       [value]="newDueDate"
       (valueChange)="newDueDate = $event"
     ></app-date-picker>
+
+    <!-- Label picker toggle -->
+    <div class="label-picker-wrap" *ngIf="labelStore.labels().length > 0">
+      <button
+        type="button"
+        class="btn-label-toggle"
+        [class.btn-label-toggle--active]="labelPickerOpen() === 'add'"
+        (click)="toggleLabelPicker('add')"
+        [title]="i18n.t('labelPickerTitle')"
+      >
+        🏷️
+        <span *ngIf="newLabelIds.length > 0" class="label-count-badge">{{ newLabelIds.length }}</span>
+      </button>
+
+      <!-- Dropdown -->
+      <div class="label-dropdown" *ngIf="labelPickerOpen() === 'add'">
+        <div class="label-dropdown__title">{{ i18n.t('labelPickerTitle') }}</div>
+        <label
+          class="label-option"
+          *ngFor="let lbl of labelStore.labels()"
+        >
+          <input
+            type="checkbox"
+            [checked]="newLabelIds.includes(lbl.id)"
+            (change)="toggleNewLabel(lbl.id)"
+          />
+          <span class="label-option__chip" [style.background]="lbl.color + '22'" [style.border-color]="lbl.color">
+            <span class="label-dot" [style.background]="lbl.color"></span>
+            {{ lbl.text }}
+          </span>
+        </label>
+      </div>
+    </div>
   </div>
   <button class="btn btn--primary" type="submit" [disabled]="!newTitle.trim()">
     {{ i18n.t('addTask') }}
@@ -62,6 +95,19 @@
 
       <div class="todo-body">
         <span class="todo-title" (dblclick)="startEdit(todo)">{{ todo.title }}</span>
+
+        <!-- Label chips -->
+        <div class="todo-labels" *ngIf="todo.labelIds && todo.labelIds.length > 0">
+          <ng-container *ngFor="let lid of todo.labelIds">
+            <ng-container *ngIf="labelStore.labelMap().get(lid) as lbl">
+              <span class="todo-label-chip" [style.background]="lbl.color + '22'" [style.border-color]="lbl.color">
+                <span class="label-dot" [style.background]="lbl.color"></span>
+                {{ lbl.text }}
+              </span>
+            </ng-container>
+          </ng-container>
+        </div>
+
         <span
           *ngIf="todo.dueDate"
           class="todo-due"
@@ -97,6 +143,38 @@
             [value]="editDueDate"
             (valueChange)="editDueDate = $event"
           ></app-date-picker>
+
+          <!-- Label picker in edit -->
+          <div class="label-picker-wrap" *ngIf="labelStore.labels().length > 0">
+            <button
+              type="button"
+              class="btn-label-toggle"
+              [class.btn-label-toggle--active]="labelPickerOpen() === 'edit'"
+              (click)="toggleLabelPicker('edit')"
+              [title]="i18n.t('labelPickerTitle')"
+            >
+              🏷️
+              <span *ngIf="editLabelIds.length > 0" class="label-count-badge">{{ editLabelIds.length }}</span>
+            </button>
+
+            <div class="label-dropdown" *ngIf="labelPickerOpen() === 'edit'">
+              <div class="label-dropdown__title">{{ i18n.t('labelPickerTitle') }}</div>
+              <label
+                class="label-option"
+                *ngFor="let lbl of labelStore.labels()"
+              >
+                <input
+                  type="checkbox"
+                  [checked]="editLabelIds.includes(lbl.id)"
+                  (change)="toggleEditLabel(lbl.id)"
+                />
+                <span class="label-option__chip" [style.background]="lbl.color + '22'" [style.border-color]="lbl.color">
+                  <span class="label-dot" [style.background]="lbl.color"></span>
+                  {{ lbl.text }}
+                </span>
+              </label>
+            </div>
+          </div>
         </div>
         <div class="edit-form__actions">
           <button class="btn btn--primary btn--sm" type="submit" [disabled]="!editTitle.trim()">

@@ -1,0 +1,87 @@
+<!-- Add Label Form -->
+<form class="lm-add-form" (ngSubmit)="addLabel()">
+  <input
+    class="lm-input"
+    type="text"
+    [placeholder]="i18n.t('labelNamePlaceholder')"
+    [(ngModel)]="newText"
+    name="newText"
+    maxlength="40"
+  />
+  <!-- Color picker -->
+  <div class="lm-palette" role="group" [attr.aria-label]="i18n.t('labelColorPicker')">
+    <button
+      *ngFor="let c of palette"
+      type="button"
+      class="lm-swatch"
+      [style.background]="c"
+      [class.lm-swatch--selected]="newColor === c"
+      (click)="newColor = c"
+      [title]="c"
+    ></button>
+  </div>
+  <button class="lm-btn lm-btn--primary" type="submit" [disabled]="!newText.trim()">
+    {{ i18n.t('labelAdd') }}
+  </button>
+</form>
+
+<!-- Label List -->
+<ul class="lm-list" *ngIf="labelStore.labels().length > 0; else emptyState">
+  <li class="lm-item" *ngFor="let label of labelStore.labels(); trackBy: trackById">
+
+    <!-- VIEW MODE -->
+    <ng-container *ngIf="editingId() !== label.id">
+      <span class="lm-chip" [style.background]="label.color + '22'" [style.border-color]="label.color">
+        <span class="lm-chip__dot" [style.background]="label.color"></span>
+        {{ label.text }}
+      </span>
+      <div class="lm-item__actions">
+        <button class="lm-icon-btn lm-icon-btn--edit" (click)="startEdit(label)" [title]="i18n.t('labelEdit')">✏️</button>
+        <button class="lm-icon-btn lm-icon-btn--delete" (click)="removeLabel(label.id)" [title]="i18n.t('labelDelete')">🗑️</button>
+      </div>
+    </ng-container>
+
+    <!-- EDIT MODE -->
+    <ng-container *ngIf="editingId() === label.id">
+      <form class="lm-edit-form" (ngSubmit)="saveEdit(label.id)">
+        <input
+          class="lm-input lm-input--sm"
+          type="text"
+          [(ngModel)]="editText"
+          name="editText"
+          maxlength="40"
+          [placeholder]="i18n.t('labelNamePlaceholder')"
+          autofocus
+          required
+        />
+        <div class="lm-palette" role="group">
+          <button
+            *ngFor="let c of palette"
+            type="button"
+            class="lm-swatch lm-swatch--sm"
+            [style.background]="c"
+            [class.lm-swatch--selected]="editColor === c"
+            (click)="editColor = c"
+            [title]="c"
+          ></button>
+        </div>
+        <div class="lm-edit-actions">
+          <button class="lm-btn lm-btn--primary lm-btn--sm" type="submit" [disabled]="!editText.trim()">
+            {{ i18n.t('editSave') }}
+          </button>
+          <button class="lm-btn lm-btn--ghost lm-btn--sm" type="button" (click)="cancelEdit()">
+            {{ i18n.t('editCancel') }}
+          </button>
+        </div>
+      </form>
+    </ng-container>
+
+  </li>
+</ul>
+
+<ng-template #emptyState>
+  <div class="lm-empty">
+    <span class="lm-empty__icon">🏷️</span>
+    <p>{{ i18n.t('labelEmpty') }}</p>
+  </div>
+</ng-template>

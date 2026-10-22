@@ -3,6 +3,7 @@ import { signalStore, withComputed, withMethods, withState } from '@ngrx/signals
 import { updateState, withDevtools } from '@angular-architects/ngrx-toolkit';
 import { Todo, TodoStatus } from './todo.model';
 import { IndexedDbService } from './indexed-db.service';
+import { LabelStore } from './label.store';
 
 interface TodoState {
   todos: Todo[];
@@ -20,7 +21,7 @@ export const TodoStore = signalStore(
     activeTodos:    computed(() => todos().filter(t => !t.completed)),
     completedTodos: computed(() => todos().filter(t => t.completed)),
   })),
-  withMethods((store, db = inject(IndexedDbService)) => {
+  withMethods((store, db = inject(IndexedDbService), labelStore = inject(LabelStore)) => {
     const persist = (): void => {
       db.saveAll(store.todos()).catch(err =>
         console.error('[TodoStore] IndexedDB save failed:', err)
@@ -31,6 +32,7 @@ export const TodoStore = signalStore(
       /** Called once by APP_INITIALIZER before the app renders. */
       async init(): Promise<void> {
         await db.open();
+        await labelStore.init();
         const saved = await db.loadAll();
         if (saved.length > 0) {
           updateState(store, 'init',
@@ -46,19 +48,19 @@ export const TodoStore = signalStore(
         updateState(store, 'init loaded', { loaded: true });
       },
 
-      add(title: string, dueDate: string | null = null): void {
+      add(title: string, dueDate: string | null = null, labelIds: number[] = []): void {
         if (!title.trim()) return;
         updateState(store, 'add', state => ({
           nextId: state.nextId + 1,
           todos: [
             ...state.todos,
-            { id: state.nextId, title: title.trim(), dueDate, completed: false, status: 'todo' as TodoStatus }
+            { id: state.nextId, title: title.trim(), dueDate, completed: false, status: 'todo' as TodoStatus, labelIds }
           ],
         }));
         persist();
       },
 
-      update(id: number, changes: Partial<Pick<Todo, 'title' | 'dueDate' | 'completed'>>): void {
+      update(id: number, changes: Partial<Pick<Todo, 'title' | 'dueDate' | 'completed' | 'labelIds'>>): void {
         updateState(store, 'update', state => ({
           todos: state.todos.map(t => {
             if (t.id !== id) return t;

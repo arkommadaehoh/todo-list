@@ -65,5 +65,17 @@
   "pomAlertFocusDone": "🎉 Focus session complete! Time for a {{break}} break.",
   "pomAlertBreakDone": "⏰ Break finished! Ready to get back to focus?",
   "pomBreakLong": "long",
-  "pomBreakShort": "short"
+  "pomBreakShort": "short",
+
+  "settingsTitle": "Settings",
+  "labelManagerTitle": "Label Manager",
+  "labelManagerDesc": "Create and manage labels to organise your tasks.",
+  "labelNamePlaceholder": "Label name…",
+  "labelColorPicker": "Pick a colour",
+  "labelAdd": "+ Add Label",
+  "labelEdit": "Rename / recolour",
+  "labelDelete": "Delete label",
+  "labelEmpty": "No labels yet. Add one above!",
+  "labelConfirmDelete": "Delete this label? It will be removed from all tasks.",
+  "labelPickerTitle": "Add labels"
 }

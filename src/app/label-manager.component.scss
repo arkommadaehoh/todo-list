@@ -1,0 +1,216 @@
+/* ─── Variables ─────────────────────────────────────────────── */
+$primary:      #4f46e5;
+$primary-dark: #3730a3;
+$danger:       #dc2626;
+$text:         #111827;
+$text-muted:   #6b7280;
+$border:       #e5e7eb;
+$surface:      #f9fafb;
+$white:        #ffffff;
+$radius:       10px;
+$radius-sm:    6px;
+
+/* ─── Page Header ───────────────────────────────────────────── */
+.lm-header {
+  padding: 1.5rem 1.5rem 0.5rem;
+  border-bottom: 1px solid $border;
+
+  .lm-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: $text;
+    margin: 0 0 0.25rem;
+  }
+
+  .lm-desc {
+    font-size: 0.875rem;
+    color: $text-muted;
+    margin: 0;
+  }
+}
+
+/* ─── Add Form ──────────────────────────────────────────────── */
+.lm-add-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid $border;
+}
+
+/* ─── Input ─────────────────────────────────────────────────── */
+.lm-input {
+  border: 1.5px solid $border;
+  border-radius: $radius-sm;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: $text;
+  background: $white;
+  outline: none;
+  min-width: 180px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:focus {
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+  }
+
+  &--sm { min-width: 140px; padding: 0.4rem 0.65rem; font-size: 0.855rem; }
+}
+
+/* ─── Color Palette ─────────────────────────────────────────── */
+.lm-palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.lm-swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.12s ease, border-color 0.12s ease;
+  flex-shrink: 0;
+
+  &:hover { transform: scale(1.2); }
+
+  &--selected {
+    border-color: $text;
+    transform: scale(1.2);
+  }
+
+  &--sm { width: 18px; height: 18px; }
+}
+
+/* ─── Buttons ───────────────────────────────────────────────── */
+.lm-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: $radius-sm;
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  white-space: nowrap;
+
+  &--primary {
+    background: $primary;
+    color: $white;
+
+    &:hover:not(:disabled) { background: $primary-dark; }
+    &:disabled { opacity: 0.45; cursor: not-allowed; }
+  }
+
+  &--ghost {
+    background: transparent;
+    color: $text-muted;
+    border-color: $border;
+
+    &:hover { background: $surface; color: $text; }
+  }
+
+  &--sm { padding: 0.4rem 0.85rem; font-size: 0.835rem; }
+}
+
+.lm-icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem 0.4rem;
+  border-radius: $radius-sm;
+  font-size: 1rem;
+  line-height: 1;
+  transition: background 0.12s ease, transform 0.1s ease;
+  opacity: 0.6;
+
+  &:hover { opacity: 1; }
+  &--edit:hover   { background: #ede9fe; transform: scale(1.15); }
+  &--delete:hover { background: #fee2e2; transform: scale(1.15); }
+}
+
+/* ─── Label List ─────────────────────────────────────────────── */
+.lm-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lm-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1.5rem;
+  border-bottom: 1px solid $border;
+  transition: background 0.12s ease;
+
+  &:last-child { border-bottom: none; }
+  &:hover { background: $surface; }
+
+  .lm-item__actions {
+    margin-left: auto;
+    display: flex;
+    gap: 0.15rem;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+
+  &:hover .lm-item__actions { opacity: 1; }
+}
+
+/* ─── Label Chip ─────────────────────────────────────────────── */
+.lm-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.65rem 0.2rem 0.45rem;
+  border-radius: 20px;
+  border: 1.5px solid;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: $text;
+
+  .lm-chip__dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+}
+
+/* ─── Edit Form ─────────────────────────────────────────────── */
+.lm-edit-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  width: 100%;
+}
+
+.lm-edit-actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+/* ─── Empty ─────────────────────────────────────────────────── */
+.lm-empty {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: $text-muted;
+
+  .lm-empty__icon {
+    display: block;
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  p { font-size: 0.95rem; }
+}
