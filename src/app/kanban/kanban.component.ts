@@ -1,4 +1,4 @@
-import { Component, inject, computed } from '@angular/core';
+import { Component, inject, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TodoStore } from '../todo.store';
@@ -6,6 +6,7 @@ import { LabelStore } from '../label.store';
 import { I18nStore } from '../i18n.store';
 import { Todo, TodoStatus } from '../todo.model';
 import { DatePickerComponent } from '../shared/components/date-picker/date-picker.component';
+import { TaskEditDialogComponent } from '../shared/components/task-edit-dialog/task-edit-dialog.component';
 
 interface Column {
   status: TodoStatus;
@@ -15,7 +16,7 @@ interface Column {
 @Component({
   selector: 'app-kanban',
   standalone: true,
-  imports: [CommonModule, FormsModule, DatePickerComponent],
+  imports: [CommonModule, FormsModule, DatePickerComponent, TaskEditDialogComponent],
   templateUrl: './kanban.component.html',
   styleUrls: ['./kanban.component.scss']
 })
@@ -42,9 +43,7 @@ export class KanbanComponent {
   dragOverStatus: TodoStatus | null = null;
   dropTargetId: number | null = null;
   dropAfter = false;
-  editingId: number | null = null;
-  editTitle = '';
-  editDueDate = '';
+  editingTodo = signal<Todo | null>(null);
 
   add(): void {
     if (!this.newTitle.trim()) return;
@@ -54,24 +53,11 @@ export class KanbanComponent {
   }
 
   startEdit(todo: Todo): void {
-    this.editingId = todo.id;
-    this.editTitle = todo.title;
-    this.editDueDate = todo.dueDate ?? '';
+    this.editingTodo.set(todo);
   }
 
-  saveEdit(id: number): void {
-    if (!this.editTitle.trim()) return;
-    this.todoService.update(id, {
-      title: this.editTitle.trim(),
-      dueDate: this.editDueDate || null
-    });
-    this.cancelEdit();
-  }
-
-  cancelEdit(): void {
-    this.editingId = null;
-    this.editTitle = '';
-    this.editDueDate = '';
+  closeEdit(): void {
+    this.editingTodo.set(null);
   }
 
   onDragStart(event: DragEvent, todo: Todo): void {

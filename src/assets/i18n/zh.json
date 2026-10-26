@@ -19,6 +19,13 @@
   "editSave": "保存",
   "editCancel": "取消",
   "editPlaceholder": "任务标题",
+  "editTaskHeading": "编辑任务",
+  "taskTitleLabel": "任务",
+  "taskDescriptionLabel": "描述",
+  "taskDescriptionPlaceholder": "添加更多详情…",
+  "taskLabelsLabel": "标签",
+  "taskNoLabels": "还没有标签，请在设置中创建。",
+  "taskDueDateLabel": "截止日期",
 
   "emptyNoCompleted": "还没有已完成的任务。",
   "emptyAllDone": "所有任务都完成了！",

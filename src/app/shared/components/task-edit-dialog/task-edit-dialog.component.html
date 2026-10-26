@@ -1,0 +1,63 @@
+<div class="ted-backdrop">
+  <form class="ted-dialog" role="dialog" aria-modal="true" (ngSubmit)="save()">
+    <h2 class="ted-heading">{{ i18n.t('editTaskHeading') }}</h2>
+
+    <label class="ted-field">
+      <span class="ted-label">{{ i18n.t('taskTitleLabel') }}</span>
+      <input
+        class="ted-input"
+        type="text"
+        name="title"
+        [(ngModel)]="title"
+        [placeholder]="i18n.t('editPlaceholder')"
+        required
+        autofocus
+      />
+    </label>
+
+    <div class="ted-field">
+      <span class="ted-label">{{ i18n.t('taskDueDateLabel') }}</span>
+      <app-date-picker [value]="dueDate" (valueChange)="dueDate = $event"></app-date-picker>
+    </div>
+
+    <label class="ted-field">
+      <span class="ted-label">{{ i18n.t('taskDescriptionLabel') }}</span>
+      <textarea
+        class="ted-input ted-textarea"
+        name="description"
+        rows="5"
+        [(ngModel)]="description"
+        [placeholder]="i18n.t('taskDescriptionPlaceholder')"
+      ></textarea>
+    </label>
+
+    <div class="ted-field">
+      <span class="ted-label">{{ i18n.t('taskLabelsLabel') }}</span>
+      <div class="ted-labels" *ngIf="labelStore.labels().length > 0; else noLabels">
+        <button
+          type="button"
+          class="ted-chip"
+          *ngFor="let lbl of labelStore.labels()"
+          [class.ted-chip--selected]="labelIds.includes(lbl.id)"
+          [style.background]="labelIds.includes(lbl.id) ? lbl.color + '33' : 'transparent'"
+          [style.border-color]="lbl.color"
+          (click)="toggleLabel(lbl.id)"
+        >
+          {{ lbl.text }}
+        </button>
+      </div>
+      <ng-template #noLabels>
+        <span class="ted-hint">{{ i18n.t('taskNoLabels') }}</span>
+      </ng-template>
+    </div>
+
+    <div class="ted-actions">
+      <button class="ted-btn ted-btn--ghost" type="button" (click)="cancel()">
+        {{ i18n.t('editCancel') }}
+      </button>
+      <button class="ted-btn ted-btn--primary" type="submit" [disabled]="!title.trim()">
+        {{ i18n.t('editSave') }}
+      </button>
+    </div>
+  </form>
+</div>

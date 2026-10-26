@@ -60,7 +60,7 @@ export const TodoStore = signalStore(
         persist();
       },
 
-      update(id: number, changes: Partial<Pick<Todo, 'title' | 'dueDate' | 'completed' | 'labelIds'>>): void {
+      update(id: number, changes: Partial<Pick<Todo, 'title' | 'description' | 'dueDate' | 'completed' | 'labelIds'>>): void {
         updateState(store, 'update', state => ({
           todos: state.todos.map(t => {
             if (t.id !== id) return t;

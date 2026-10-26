@@ -6,11 +6,12 @@ import { LabelStore } from '../label.store';
 import { I18nStore } from '../i18n.store';
 import { Todo } from '../todo.model';
 import { DatePickerComponent } from '../shared/components/date-picker/date-picker.component';
+import { TaskEditDialogComponent } from '../shared/components/task-edit-dialog/task-edit-dialog.component';
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [CommonModule, FormsModule, DatePickerComponent],
+  imports: [CommonModule, FormsModule, DatePickerComponent, TaskEditDialogComponent],
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.scss']
 })
@@ -24,14 +25,11 @@ export class TasksComponent {
   newDueDate = this.todayStr();
   newLabelIds: number[] = [];
 
-  // Edit state
-  editingId = signal<number | null>(null);
-  editTitle = '';
-  editDueDate = '';
-  editLabelIds: number[] = [];
+  // Task currently open in the edit popup
+  editingTodo = signal<Todo | null>(null);
 
   // Label picker open state
-  labelPickerOpen = signal<'add' | 'edit' | null>(null);
+  labelPickerOpen = signal<'add' | null>(null);
 
   // Filter
   filter: 'all' | 'active' | 'completed' = 'all';
@@ -54,35 +52,17 @@ export class TasksComponent {
   }
 
   startEdit(todo: Todo): void {
-    this.editingId.set(todo.id);
-    this.editTitle = todo.title;
-    this.editDueDate = todo.dueDate ?? '';
-    this.editLabelIds = [...(todo.labelIds ?? [])];
     this.labelPickerOpen.set(null);
+    this.editingTodo.set(todo);
   }
 
-  saveEdit(id: number): void {
-    if (!this.editTitle.trim()) return;
-    this.todoService.update(id, {
-      title: this.editTitle.trim(),
-      dueDate: this.editDueDate || null,
-      labelIds: [...this.editLabelIds],
-    });
-    this.cancelEdit();
-  }
-
-  cancelEdit(): void {
-    this.editingId.set(null);
-    this.editTitle = '';
-    this.editDueDate = '';
-    this.editLabelIds = [];
-    this.labelPickerOpen.set(null);
+  closeEdit(): void {
+    this.editingTodo.set(null);
   }
 
   removeTodo(id: number): void {
     if (!confirm(this.i18n.t('confirmDelete'))) return;
     this.todoService.remove(id);
-    if (this.editingId() === id) this.cancelEdit();
   }
 
   toggleComplete(id: number): void {
@@ -111,13 +91,7 @@ export class TasksComponent {
     else            this.newLabelIds = this.newLabelIds.filter(x => x !== id);
   }
 
-  toggleEditLabel(id: number): void {
-    const idx = this.editLabelIds.indexOf(id);
-    if (idx === -1) this.editLabelIds = [...this.editLabelIds, id];
-    else            this.editLabelIds = this.editLabelIds.filter(x => x !== id);
-  }
-
-  toggleLabelPicker(context: 'add' | 'edit'): void {
+  toggleLabelPicker(context: 'add'): void {
     this.labelPickerOpen.set(this.labelPickerOpen() === context ? null : context);
   }
 

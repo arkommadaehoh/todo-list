@@ -9,6 +9,8 @@ export interface Label {
 export interface Todo {
   id: number;
   title: string;
+  /** Optional long-form notes. */
+  description?: string;
   dueDate: string | null;
   completed: boolean;
   status: TodoStatus;

@@ -81,6 +81,7 @@
             (dragstart)="onDragStart($event, t)"
             (dragend)="onDragEnd()"
             (click)="$event.stopPropagation()"
+            (dblclick)="$event.stopPropagation(); startEdit(t)"
           >{{ t.title }}</div>
           <div class="cell-pill cell-pill--more" *ngIf="day.todos.length > 2">
             {{ i18n.t('calMore', { count: day.todos.length - 2 }) }}
@@ -89,6 +90,7 @@
       </div>
     </div>
   </div>
+
 
   <!-- ═══ DAY VIEW ═════════════════════════════════════════════ -->
   <div class="cal-day" *ngIf="calView() === 'day'">
@@ -113,14 +115,15 @@
         class="day-task"
         *ngFor="let todo of dayTodos(); trackBy: trackById"
         [class.day-task--done]="todo.completed"
+        (dblclick)="startEdit(todo)"
       >
         <label class="todo-check" [title]="todo.completed ? i18n.t('filterCompleted') : i18n.t('filterActive')">
           <input type="checkbox" [checked]="todo.completed" (change)="toggleComplete(todo.id)" />
           <span class="checkmark"></span>
         </label>
-        <ng-container *ngIf="editingId() !== todo.id; else editTpl">
+        <ng-container>
           <div class="day-task__body">
-            <span class="day-task__title" [title]="todo.title" (dblclick)="startEdit(todo)">{{ todo.title }}</span>
+            <span class="day-task__title" [title]="todo.title">{{ todo.title }}</span>
             <ng-container *ngIf="todo.labelIds && todo.labelIds.length > 0">
               <ng-container *ngFor="let lid of todo.labelIds">
                 <ng-container *ngIf="labelStore.labelMap().get(lid) as lbl">
@@ -134,26 +137,6 @@
           <button class="btn-icon btn-icon--edit" (click)="startEdit(todo)" title="Edit">✏️</button>
           <button class="btn-icon btn-icon--delete" (click)="removeTodo(todo.id)" title="Remove">🗑️</button>
         </ng-container>
-        <ng-template #editTpl>
-          <form class="day-task__edit" (ngSubmit)="saveEdit(todo.id)">
-            <input
-              class="day-task__edit-input"
-              type="text"
-              [(ngModel)]="editTitle"
-              name="editTitle"
-              [placeholder]="i18n.t('editPlaceholder')"
-              (keydown.escape)="cancelEdit()"
-              required
-              autofocus
-            />
-            <button class="btn btn--primary btn--sm" type="submit" [disabled]="!editTitle.trim()">
-              {{ i18n.t('editSave') }}
-            </button>
-            <button class="btn btn--ghost btn--sm" type="button" (click)="cancelEdit()">
-              {{ i18n.t('editCancel') }}
-            </button>
-          </form>
-        </ng-template>
       </div>
     </div>
 
@@ -166,3 +149,9 @@
   </div>
 
 </div>
+
+<app-task-edit-dialog
+  *ngIf="editingTodo() as t"
+  [todo]="t"
+  (closed)="closeEdit()"
+></app-task-edit-dialog>

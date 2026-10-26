@@ -8,6 +8,7 @@ import { TodoStore } from '../todo.store';
 import { LabelStore } from '../label.store';
 import { I18nStore } from '../i18n.store';
 import { Todo } from '../todo.model';
+import { TaskEditDialogComponent } from '../shared/components/task-edit-dialog/task-edit-dialog.component';
 
 type CalView = 'month' | 'day';
 
@@ -20,7 +21,7 @@ const WEEKDAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TaskEditDialogComponent],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss']
 })
@@ -151,24 +152,15 @@ export class CalendarComponent implements OnInit {
     this.quickTitle = '';
   }
 
-  // ── Edit task title directly from day view ────────────────────
-  editingId = signal<number | null>(null);
-  editTitle = '';
+  // ── Edit task in popup ────────────────────────────────────────
+  editingTodo = signal<Todo | null>(null);
 
   startEdit(todo: Todo): void {
-    this.editingId.set(todo.id);
-    this.editTitle = todo.title;
+    this.editingTodo.set(todo);
   }
 
-  saveEdit(id: number): void {
-    if (!this.editTitle.trim()) return;
-    this.todoService.update(id, { title: this.editTitle.trim() });
-    this.cancelEdit();
-  }
-
-  cancelEdit(): void {
-    this.editingId.set(null);
-    this.editTitle = '';
+  closeEdit(): void {
+    this.editingTodo.set(null);
   }
 
   // ── Toggle complete directly from calendar ────────────────────

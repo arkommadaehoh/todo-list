@@ -19,6 +19,13 @@
   "editSave": "บันทึก",
   "editCancel": "ยกเลิก",
   "editPlaceholder": "ชื่องาน",
+  "editTaskHeading": "แก้ไขงาน",
+  "taskTitleLabel": "งาน",
+  "taskDescriptionLabel": "รายละเอียด",
+  "taskDescriptionPlaceholder": "เพิ่มรายละเอียด…",
+  "taskLabelsLabel": "ป้ายกำกับ",
+  "taskNoLabels": "ยังไม่มีป้ายกำกับ สร้างได้ในการตั้งค่า",
+  "taskDueDateLabel": "วันครบกำหนด",
 
   "emptyNoCompleted": "ยังไม่มีงานที่เสร็จ",
   "emptyAllDone": "ทำครบทุกงานแล้ว!",

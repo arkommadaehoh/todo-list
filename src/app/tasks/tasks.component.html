@@ -70,19 +70,18 @@
     class="todo-item"
     *ngFor="let todo of filteredTodos; trackBy: trackById"
     [class.todo-item--completed]="todo.completed"
-    [class.todo-item--editing]="editingId() === todo.id"
     [class.todo-item--dragging]="draggingId === todo.id"
     [class.todo-item--drop-before]="dropTargetId === todo.id && !dropAfter"
     [class.todo-item--drop-after]="dropTargetId === todo.id && dropAfter"
-    [attr.draggable]="editingId() !== todo.id ? 'true' : null"
+    draggable="true"
+    (dblclick)="startEdit(todo)"
     (dragstart)="onDragStart($event, todo)"
     (dragover)="onDragOver($event, todo)"
     (drop)="onDrop($event)"
     (dragend)="onDragEnd()"
   >
 
-    <!-- VIEW MODE -->
-    <ng-container *ngIf="editingId() !== todo.id">
+    <ng-container>
       <label class="todo-check" [title]="todo.completed ? i18n.t('filterCompleted') : i18n.t('filterActive')">
         <input
           type="checkbox"
@@ -93,7 +92,7 @@
       </label>
 
       <div class="todo-body">
-        <span class="todo-title" (dblclick)="startEdit(todo)">{{ todo.title }}</span>
+        <span class="todo-title">{{ todo.title }}</span>
 
         <!-- Due date + label chips inline -->
         <div class="todo-meta" *ngIf="todo.dueDate || (todo.labelIds && todo.labelIds.length > 0)">
@@ -125,68 +124,15 @@
       </div>
     </ng-container>
 
-    <!-- EDIT MODE -->
-    <ng-container *ngIf="editingId() === todo.id">
-      <form class="edit-form" (ngSubmit)="saveEdit(todo.id)">
-        <div class="edit-form__inputs">
-          <input
-            class="input input--title"
-            type="text"
-            [(ngModel)]="editTitle"
-            name="editTitle"
-            [placeholder]="i18n.t('editPlaceholder')"
-            required
-            autofocus
-          />
-          <app-date-picker
-            [value]="editDueDate"
-            (valueChange)="editDueDate = $event"
-          ></app-date-picker>
-
-          <!-- Label picker in edit -->
-          <div class="label-picker-wrap" *ngIf="labelStore.labels().length > 0">
-            <button
-              type="button"
-              class="btn-label-toggle"
-              [class.btn-label-toggle--active]="labelPickerOpen() === 'edit'"
-              (click)="toggleLabelPicker('edit')"
-              [title]="i18n.t('labelPickerTitle')"
-            >
-              🏷️
-              <span *ngIf="editLabelIds.length > 0" class="label-count-badge">{{ editLabelIds.length }}</span>
-            </button>
-
-            <div class="label-dropdown" *ngIf="labelPickerOpen() === 'edit'">
-              <div class="label-dropdown__title">{{ i18n.t('labelPickerTitle') }}</div>
-              <label
-                class="label-option"
-                *ngFor="let lbl of labelStore.labels()"
-              >
-                <input
-                  type="checkbox"
-                  [checked]="editLabelIds.includes(lbl.id)"
-                  (change)="toggleEditLabel(lbl.id)"
-                />
-                <span class="label-option__chip" [style.background]="lbl.color + '22'" [style.border-color]="lbl.color">
-                  {{ lbl.text }}
-                </span>
-              </label>
-            </div>
-          </div>
-        </div>
-        <div class="edit-form__actions">
-          <button class="btn btn--primary btn--sm" type="submit" [disabled]="!editTitle.trim()">
-            {{ i18n.t('editSave') }}
-          </button>
-          <button class="btn btn--ghost btn--sm" type="button" (click)="cancelEdit()">
-            {{ i18n.t('editCancel') }}
-          </button>
-        </div>
-      </form>
-    </ng-container>
-
   </li>
 </ul>
+
+<!-- Edit popup -->
+<app-task-edit-dialog
+  *ngIf="editingTodo() as t"
+  [todo]="t"
+  (closed)="closeEdit()"
+></app-task-edit-dialog>
 
 <!-- Empty State -->
 <ng-template #emptyState>

@@ -19,6 +19,13 @@
   "editSave": "Save",
   "editCancel": "Cancel",
   "editPlaceholder": "Task title",
+  "editTaskHeading": "Edit task",
+  "taskTitleLabel": "Task",
+  "taskDescriptionLabel": "Description",
+  "taskDescriptionPlaceholder": "Add more details…",
+  "taskLabelsLabel": "Labels",
+  "taskNoLabels": "No labels yet. Create some in Settings.",
+  "taskDueDateLabel": "Due date",
 
   "emptyNoCompleted": "No completed tasks yet.",
   "emptyAllDone": "All tasks done!",
