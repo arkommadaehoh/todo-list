@@ -120,6 +120,11 @@ $radius:     8px;
   &--drop-before { box-shadow: 0 -3px 0 $primary; }
   &--drop-after  { box-shadow: 0 3px 0 $primary; }
 
+  &--completed &__title {
+    text-decoration: line-through;
+    color: $text-muted;
+  }
+
   &__title { font-size: 0.9rem; word-break: break-word; }
 
   &__meta {

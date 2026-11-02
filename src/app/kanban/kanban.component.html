@@ -35,6 +35,7 @@
           class="card-item"
           *ngFor="let todo of byStatus()[col.status]; trackBy: trackById"
           draggable="true"
+          [class.card-item--completed]="todo.completed"
           [class.card-item--dragging]="draggingId === todo.id"
           [class.card-item--drop-before]="dropTargetId === todo.id && !dropAfter"
           [class.card-item--drop-after]="dropTargetId === todo.id && dropAfter"
