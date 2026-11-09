@@ -46,6 +46,9 @@
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
+            "allowedCommonJsDependencies": [
+              "exceljs"
+            ],
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",

@@ -85,5 +85,12 @@
   "labelDelete": "ลบป้ายกำกับ",
   "labelEmpty": "ยังไม่มีป้ายกำกับ เพิ่มด้านบนได้เลย!",
   "labelConfirmDelete": "ลบป้ายกำกับนี้? มันจะถูกลบออกจากทุกงาน",
-  "labelPickerTitle": "เพิ่มป้ายกำกับ"
+  "labelPickerTitle": "เพิ่มป้ายกำกับ",
+  "exportTitle": "ส่งออก",
+  "exportDesc": "ส่งออกงานทั้งหมดเป็นไฟล์ Excel เรียงตามวันที่สร้าง",
+  "exportButton": "ส่งออกเป็น Excel",
+  "exportColTask": "งาน",
+  "exportColDate": "วันที่",
+  "exportColLabel": "ป้ายกำกับ",
+  "exportColStatus": "สถานะ"
 }

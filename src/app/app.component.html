@@ -145,6 +145,17 @@
       </div>
     </div>
 
+    <!-- ── Export ──────────────────────────────────────────── -->
+    <div class="settings-section">
+      <div class="settings-section__head">
+        <h3 class="settings-section__title">📤 {{ i18n.t('exportTitle') }}</h3>
+        <p class="settings-section__desc">{{ i18n.t('exportDesc') }}</p>
+      </div>
+      <div class="settings-section__content">
+        <button class="lang-btn-inline" (click)="exportToExcel()">{{ i18n.t('exportButton') }}</button>
+      </div>
+    </div>
+
     <!-- ── Add more sections here ──────────────────────────── -->
 
   </div>

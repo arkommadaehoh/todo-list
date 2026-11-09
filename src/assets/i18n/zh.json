@@ -85,5 +85,12 @@
   "labelDelete": "删除标签",
   "labelEmpty": "还没有标签，在上方添加一个吧！",
   "labelConfirmDelete": "删除此标签？它将从所有任务中移除。",
-  "labelPickerTitle": "添加标签"
+  "labelPickerTitle": "添加标签",
+  "exportTitle": "导出",
+  "exportDesc": "将所有任务导出为 Excel 文件，按创建日期排序。",
+  "exportButton": "导出为 Excel",
+  "exportColTask": "任务",
+  "exportColDate": "日期",
+  "exportColLabel": "标签",
+  "exportColStatus": "状态"
 }
