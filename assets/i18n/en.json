@@ -85,5 +85,12 @@
   "labelDelete": "Delete label",
   "labelEmpty": "No labels yet. Add one above!",
   "labelConfirmDelete": "Delete this label? It will be removed from all tasks.",
-  "labelPickerTitle": "Add labels"
+  "labelPickerTitle": "Add labels",
+  "exportTitle": "Export",
+  "exportDesc": "Export all tasks to an Excel file, ordered by creation date.",
+  "exportButton": "Export to Excel",
+  "exportColTask": "Task",
+  "exportColDate": "Date",
+  "exportColLabel": "Label",
+  "exportColStatus": "Status"
 }
