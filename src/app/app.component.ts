@@ -48,7 +48,9 @@ export class AppComponent {
 
   /** Export all tasks to an .xlsx file, ordered by creation (ids are assigned incrementally). */
   async exportToExcel(): Promise<void> {
-    const { Workbook } = await import('exceljs');
+    // exceljs is CommonJS; in the production bundle its exports live on `default`.
+    const mod = await import('exceljs');
+    const Workbook = (mod.default ?? mod).Workbook;
     const statusKey: Record<TodoStatus, string> = {
       'todo': 'kanbanTodo',
       'in-progress': 'kanbanInProgress',
